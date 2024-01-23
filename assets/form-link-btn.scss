@@ -1,0 +1,91 @@
+.form-link,
+.form-button {
+    @include flex($gap: 5px);
+    @include loader();
+    padding: 0.5em 1em;
+    border-radius: 0.5em;
+    color: rgba(var(--bg), 0.8);
+    background-color: rgb(var(--fg));
+    border: 1px solid rgba(var(--fg), 0.1);
+    text-wrap: nowrap;
+    transition: 0.3s;
+
+    &.router-link-exact-active,
+    &:hover {
+        color: rgb(var(--bg));
+        background-color: rgba(var(--fg), 0.8);
+    }
+
+    &:active {
+        transition: 0s;
+        color: rgb(var(--bg));
+        background-color: rgba(var(--fg), 0.6);
+    }
+
+    &:disabled {
+        box-shadow: inset 0 0 300px rgba(255, 255, 255, 0.5) !important;
+    }
+
+    &.primary {
+        color: rgba(255, 255, 255, 0.8);
+        background-color: rgb(var(--primary));
+
+        &.router-link-exact-active,
+        &:hover {
+            color: rgb(255, 255, 255);
+            box-shadow: inset 0 0 200px rgba(var(--fg), 0.15);
+        }
+
+        &:active {
+            color: rgb(255, 255, 255);
+            box-shadow: inset 0 0 200px rgba(var(--fg), 0.3);
+        }
+    }
+
+    &.danger {
+        color: rgba(255, 255, 255, 0.8);
+        background-color: rgb(var(--red));
+
+        &:hover {
+            color: rgb(255, 255, 255);
+            box-shadow: inset 0 0 200px rgba(var(--fg), 0.2);
+        }
+
+        &:active {
+            color: rgb(255, 255, 255);
+            box-shadow: inset 0 0 200px rgba(var(--fg), 0.3);
+        }
+    }
+
+    &.inverse {
+        color: rgba(var(--fg), 0.8);
+        background-color: transparent;
+
+        &.router-link-exact-active,
+        &:hover {
+            color: rgb(var(--fg));
+            background-color: rgba(var(--fg), 0.1);
+        }
+
+        &:active {
+            color: rgb(var(--fg));
+            background-color: rgba(var(--fg), 0.2);
+        }
+    }
+
+    &.inverse-primary {
+        color: rgba(var(--fg), 0.8);
+        background-color: transparent;
+
+        &.router-link-exact-active,
+        &:hover {
+            color: rgb(var(--primary));
+            background-color: rgba(var(--primary), 0.05);
+        }
+
+        &:active {
+            color: rgb(var(--primary));
+            background-color: rgba(var(--primary), 0.1);
+        }
+    }
+}

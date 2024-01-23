@@ -1,0 +1,84 @@
+*,
+::after,
+::before {
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+    text-decoration: none;
+    text-transform: none;
+    font-family: inherit;
+    font-size: inherit;
+    font-style: normal;
+    font-weight: inherit;
+    line-height: inherit;
+    color: inherit;
+    box-sizing: border-box;
+    background-color: transparent;
+    cursor: default;
+}
+
+html,
+body {
+    color: rgb(var(--fg));
+    background-color: rgb(var(--bg));
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.6;
+    transition: 0.3s;
+    scroll-behavior: smooth;
+}
+
+a,
+button {
+    cursor: pointer;
+
+    >* {
+        pointer-events: none;
+    }
+}
+
+input[type='text'],
+input[type='password'],
+textarea {
+    cursor: text;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 60px - 60px);
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #404040;
+    border-radius: 8px;
+
+    &:hover {
+        background-color: #808080;
+    }
+
+    &:active {
+        background-color: #bfbfbf;
+    }
+}
+
+::-webkit-scrollbar-corner {
+    background-color: rgb(var(--bg));
+}
+
+::selection {
+    background-color: rgba(var(--primary), 0.5);
+    color: rgb(var(--fg));
+}

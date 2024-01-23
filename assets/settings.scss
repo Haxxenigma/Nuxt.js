@@ -1,0 +1,114 @@
+.settings-cnt {
+    margin: 8px 64px;
+
+    .title-cnt {
+        .title {
+            @include flex(space-between);
+            padding: 4px;
+            font-size: 28px;
+            border-bottom: 3px solid rgba(var(--primary), 0.5);
+
+            .title-link-cnt {
+                @include flex();
+
+                .title-link {
+                    &.router-link-exact-active {
+                        color: rgba(var(--fg), 0.8);
+                    }
+                }
+
+                .title-link-path {
+                    color: rgba(var(--fg), 0.6);
+                }
+            }
+
+            .nav-btn {
+                display: none;
+                padding: 4px;
+                border-radius: 4px;
+            }
+
+            .nav-icon-enter-active,
+            .nav-icon-leave-active {
+                transition: opacity 0.1s ease;
+            }
+
+            .nav-icon-enter-from,
+            .nav-icon-leave-to {
+                filter: blur(1px);
+            }
+        }
+    }
+
+    .settings {
+        @include flex($y: flex-start);
+        margin-top: 15px;
+
+        .nav {
+            @include flex($dir: column);
+            flex: 0.4;
+
+            .link {
+                width: 100%;
+                justify-content: flex-start;
+                margin-top: 6px;
+                border: none;
+            }
+        }
+
+        .content {
+            flex: 1;
+            margin-left: 25px;
+
+            .btns {
+                @include flex($gap: 48px);
+                margin-top: 10px;
+
+                .btn {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 650px) {
+    .settings-cnt {
+        margin: 8px 24px;
+
+        .title-cnt {
+            .title {
+                .nav-btn {
+                    display: flex;
+                }
+            }
+        }
+
+        .settings {
+            .nav {
+                position: absolute;
+                justify-content: flex-start;
+                height: calc(100vh - 128px - 60px);
+                padding: 10px;
+                top: 128px;
+                left: 0;
+                right: 0;
+                background-color: rgba(var(--bg), 0.95);
+                opacity: 0;
+                visibility: hidden;
+                pointer-events: none;
+                z-index: 1;
+
+                &.active {
+                    opacity: 1;
+                    visibility: visible;
+                    pointer-events: all;
+                }
+            }
+
+            .content {
+                margin-left: 5px;
+            }
+        }
+    }
+}
