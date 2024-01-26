@@ -158,6 +158,7 @@ watch(() => isVisibleUpload.value, (isVisibleUpload) => {
         @include flex();
         width: 120px;
         height: 120px;
+        margin-top: 20px;
         border-radius: 50%;
         overflow: hidden;
 

@@ -1,12 +1,14 @@
 <template>
-    <div class='notification' :class='{ active: notification }'>
-        <Icon class='info-icon' name='material-symbols:info-outline-rounded' size='24' />
-        {{ notification }}
-        <button class='xmark' type='button' @click='notification = null'>
-            <Icon name='iconoir:xmark' size='20' />
-        </button>
-        <div class='progress' :style='`width: ${width}%`' />
-    </div>
+    <Transition name='notification'>
+        <div v-if='notification' class='notification'>
+            <Icon class='info-icon' name='material-symbols:info-outline-rounded' size='24' />
+            {{ notification }}
+            <button class='xmark' type='button' @click='notification = null'>
+                <Icon name='iconoir:xmark' size='20' />
+            </button>
+            <div class='progress' :style='`width: ${width}%`' />
+        </div>
+    </Transition>
 </template>
 
 <script setup>
@@ -31,7 +33,7 @@ watch(() => notification.value, () => {
 .notification {
     @include flex($gap: 5px);
     position: absolute;
-    top: 70px;
+    top: 80px;
     left: 50%;
     padding: 12px;
     color: rgba(var(--fg), 0.9);
@@ -41,18 +43,7 @@ watch(() => notification.value, () => {
     font-size: 14px;
     overflow: hidden;
     transform: translateX(-50%);
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
     z-index: 1;
-
-    &.active {
-        top: 80px;
-        opacity: 1;
-        visibility: visible;
-        pointer-events: all;
-        transition: 0.2s;
-    }
 
     .info-icon {
         min-width: 24px;
@@ -77,6 +68,17 @@ watch(() => notification.value, () => {
         background-color: rgb(var(--primary));
         transition: 0.3s;
     }
+}
+
+.notification-enter-active,
+.notification-leave-active {
+    transition: 0.2s;
+}
+
+.notification-enter-from,
+.notification-leave-to {
+    top: 70px;
+    opacity: 0;
 }
 
 @media (max-width: 600px) {

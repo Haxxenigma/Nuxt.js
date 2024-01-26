@@ -1,26 +1,28 @@
 <template>
-    <div class='form-modal' :class='{ "active": isVisible }' @click='$emit("setIsVisible", false)'>
-        <div class='content' @click.stop>
-            <div class='msg'>
-                <slot name='msg'></slot>
-            </div>
-            <slot></slot>
-            <div class='btns'>
-                <slot name='btns'>
-                    <FormButton type='button' class='btn inverse' @click='$emit("setIsVisible", false)'>
-                        <Icon v-if='isSubmitting !== undefined' name='material-symbols:close-rounded' size='20' />
-                        No
-                    </FormButton>
-                    <FormButton class='btn primary' :isSubmitting='isSubmitting' @click='$emit("onClick")'>
-                        Yes
-                    </FormButton>
-                </slot>
-            </div>
-            <div v-if='error' class='error'>
-                <FormError :error='error' />
+    <Transition name='modal'>
+        <div v-if='isVisible' class='form-modal' @click='$emit("setIsVisible", false)'>
+            <div class='content' v-bind='$attrs' @click.stop>
+                <div class='msg'>
+                    <slot name='msg'></slot>
+                </div>
+                <slot></slot>
+                <div class='btns'>
+                    <slot name='btns'>
+                        <FormButton type='button' class='btn inverse' @click='$emit("setIsVisible", false)'>
+                            <Icon v-if='isSubmitting !== undefined' name='material-symbols:close-rounded' size='20' />
+                            No
+                        </FormButton>
+                        <FormButton class='btn primary' :isSubmitting='isSubmitting' @click='$emit("onClick")'>
+                            Yes
+                        </FormButton>
+                    </slot>
+                </div>
+                <div v-if='error' class='error'>
+                    <FormError :error='error' />
+                </div>
             </div>
         </div>
-    </div>
+    </Transition>
 </template>
 
 <script setup>
@@ -36,10 +38,7 @@ defineEmits(['setIsVisible', 'onClick']);
     top: 0;
     left: 0;
     right: 0;
-    opacity: 0;
-    pointer-events: none;
     background-color: #000000af;
-    transition: opacity 0.3s;
     z-index: 100;
 
     .content {
@@ -49,21 +48,19 @@ defineEmits(['setIsVisible', 'onClick']);
         background-color: rgba(var(--bg), 0.8);
         box-shadow: inset 0 0 300px rgba(var(--fg), 0.1);
         border-radius: 16px;
-        transform: scale(0.9);
-        transition: 0.2s;
 
         .msg {
-            margin: 14px 0;
+            width: 100%;
             color: rgba(var(--fg), 0.8);
         }
 
         .btns {
             @include flex(space-between, $gap: 48px);
             width: 100%;
-            margin-top: 16px;
 
             .btn {
                 padding: 8px 24px;
+                margin-top: 20px;
             }
         }
 
@@ -71,14 +68,24 @@ defineEmits(['setIsVisible', 'onClick']);
             margin-top: 8px;
         }
     }
+}
 
-    &.active {
-        opacity: 1;
-        pointer-events: all;
+.modal-enter-active,
+.modal-leave-active {
+    transition: opacity 0.3s;
 
-        .content {
-            transform: scale(1);
-        }
+    .content {
+        transition: 0.2s;
+    }
+}
+
+.modal-enter-from,
+.modal-leave-to {
+    opacity: 0;
+
+    .content {
+        opacity: 0;
+        transform: scale(0.8);
     }
 }
 </style>

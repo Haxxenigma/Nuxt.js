@@ -4,7 +4,7 @@
     @include loader();
     padding: 0.5em 1em;
     border-radius: 0.5em;
-    color: rgba(var(--bg), 0.8);
+    color: rgba(var(--bg), 0.6);
     background-color: rgb(var(--fg));
     border: 1px solid rgba(var(--fg), 0.1);
     text-wrap: nowrap;
@@ -58,7 +58,7 @@
     }
 
     &.inverse {
-        color: rgba(var(--fg), 0.8);
+        color: rgba(var(--fg), 0.7);
         background-color: transparent;
 
         &.router-link-exact-active,
@@ -87,5 +87,9 @@
             color: rgb(var(--primary));
             background-color: rgba(var(--primary), 0.1);
         }
+    }
+
+    &.wo-outline {
+        border: none;
     }
 }

@@ -12,6 +12,7 @@
                 </NuxtLink>
             </div>
             <div class='nav-right'>
+                <AppHeaderSearch />
                 <AppHeaderThemeToggle />
                 <AppHeaderMenu v-if='user' />
                 <AppHeaderAuthLinks v-else />
@@ -57,6 +58,22 @@ watch(() => store.user, () => {
 
         .nav-right {
             @include flex(space-between, $gap: 25px);
+        }
+    }
+}
+
+@media (max-width: 600px) {
+    .header {
+        .nav {
+            .nav-left {
+                .logo {
+                    width: 80px;
+                }
+            }
+
+            .nav-right {
+                gap: 8px;
+            }
         }
     }
 }

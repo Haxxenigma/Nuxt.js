@@ -17,6 +17,10 @@ const user = ref(store.user);
 const isSubmitting = ref(false);
 const rootError = ref(null);
 
+useHead({
+    title: `Settings`,
+});
+
 const onSubmit = async () => {
     isSubmitting.value = true;
     rootError.value = null;

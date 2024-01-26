@@ -8,7 +8,7 @@
                 <h2 class='subtitle'>
                     Watch your dreams materialize before your eyes with us.
                 </h2>
-                <FormLink class='link primary' to='/signup'>
+                <FormLink class='link primary' :to='user ? `/users/${user.id}` : `/signup`'>
                     <icon name='material-symbols:rocket-launch-rounded' size='20' />
                     Get Started
                 </FormLink>
@@ -33,6 +33,12 @@
 </template>
 
 <script setup>
+const { user } = useUserStore();
+
+useHead({
+    title: `Home`,
+});
+
 const items = ref([
     {
         icon: 'simple-icons:nuxtdotjs',

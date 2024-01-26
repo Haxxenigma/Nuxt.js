@@ -39,6 +39,8 @@ const links = ref([
 
 @media (max-width: 600px) {
     .auth-links {
+        gap: 8px;
+
         .link {
             padding: 8px;
 

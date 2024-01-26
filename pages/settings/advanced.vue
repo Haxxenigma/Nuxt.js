@@ -15,10 +15,10 @@
                 <div class='normal-zone'>
                     <div class='content'>
                         <h2 class='title'>Sign Out</h2>
-                        <h3 class='subtitle'>you won't be able to restore it after that</h3>
+                        <h3 class='subtitle'>This action is usually more common</h3>
                     </div>
                     <FormButton class='btn primary' @click='() => signoutModal = true'>
-                        <Icon name='lets-icons:sign-out-squre-fill' style='rotate: 180deg;' size='20' />
+                        <Icon name='lets-icons:sign-out-squre-fill' size='20' />
                         <span>Sign Out</span>
                     </FormButton>
                 </div>
@@ -55,6 +55,10 @@ const deleteModal = ref(false);
 const signoutModal = ref(false);
 const isSubmitting = ref(false);
 const rootError = ref(null);
+
+useHead({
+    title: `Settings | Advanced`,
+});
 
 const deleteAccount = async () => {
     isSubmitting.value = true;

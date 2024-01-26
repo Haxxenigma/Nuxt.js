@@ -4,7 +4,7 @@
             {{ error.statusCode }}
         </h1>
         <h2 class='subtitle'>
-            {{ error.statusMessage }}
+            {{ error.statusMessage || error.message || error.description }}
         </h2>
         <button class='btn' @click='redirect'>
             Go Home

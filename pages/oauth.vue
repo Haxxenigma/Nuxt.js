@@ -5,6 +5,14 @@
 <script setup>
 const route = useRoute();
 
+definePageMeta({
+    middleware: 'check-auth',
+});
+
+useHead({
+    title: 'Authenticating...',
+});
+
 watch(() => route.query.code, async (code) => {
     if (code) {
         let url = '/api/auth/github';

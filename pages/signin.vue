@@ -18,6 +18,14 @@
 </template>
 
 <script setup>
+definePageMeta({
+    middleware: 'check-auth',
+});
+
+useHead({
+    title: `Sign In`,
+});
+
 const fields = ref([
     {
         id: 'email',

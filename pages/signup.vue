@@ -17,6 +17,14 @@
 </template>
 
 <script setup>
+definePageMeta({
+    middleware: 'check-auth',
+});
+
+useHead({
+    title: `Sign Up`,
+});
+
 const fields = ref([
     {
         id: 'name',

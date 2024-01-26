@@ -40,6 +40,10 @@ const options = ref({
     year: 'numeric',
 });
 
+useHead({
+    title: 'Profile',
+});
+
 async function fetchUserData(userId) {
     if (route.params.id == store.user?.id) {
         return { data: store.user, error: null };

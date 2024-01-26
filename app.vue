@@ -8,5 +8,7 @@
 
 <script setup>
 const { fetchUser } = useUserStore();
-await callOnce(fetchUser);
+await callOnce(() => {
+    fetchUser();
+});
 </script>
