@@ -6,7 +6,7 @@ export default async function ({ url, method = 'get', body = {}, query, headers,
     }
 
     const { data, error, status } = await useFetch(url, {
-        body: method === 'post' || method === 'patch' ? body : null,
+        body: (method === 'post' || method === 'patch') ? body : null,
         method,
         query,
         headers,
