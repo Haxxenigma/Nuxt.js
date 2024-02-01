@@ -38,8 +38,7 @@ export default defineEventHandler(async (event) => {
             msg: `You have successfully signed in as ${user.name}`,
         };
     } catch (err) {
-        console.error(err);
-        throw createError({
+        return createError({
             statusCode: 500,
             data: {
                 msg: 'There was an error during GitHub OAuth',

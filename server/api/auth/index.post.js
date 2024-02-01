@@ -34,8 +34,7 @@ export default defineEventHandler(async (event) => {
             },
         });
     } catch (err) {
-        console.error(err);
-        throw createError({
+        return createError({
             statusCode: 500,
             data: {
                 msg: 'There was an error during sign in',

@@ -14,7 +14,7 @@
             <div class='nav-right'>
                 <AppHeaderSearch />
                 <AppHeaderThemeToggle />
-                <AppHeaderMenu v-if='user' />
+                <AppHeaderMenu v-if='store.user' />
                 <AppHeaderAuthLinks v-else />
             </div>
         </nav>
@@ -24,11 +24,6 @@
 
 <script setup>
 const store = useUserStore();
-const user = ref(store.user);
-
-watch(() => store.user, () => {
-    user.value = store.user;
-}, { immediate: true });
 </script>
 
 <style lang='scss' scoped>

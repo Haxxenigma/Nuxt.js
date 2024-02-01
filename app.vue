@@ -8,7 +8,12 @@
 
 <script setup>
 const { fetchUser } = useUserStore();
+const { fetchUsers } = useUsersStore();
+const { fetchArticles } = useArticlesStore();
+
 await callOnce(() => {
     fetchUser();
+    fetchUsers();
+    fetchArticles();
 });
 </script>

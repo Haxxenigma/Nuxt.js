@@ -25,7 +25,7 @@ export default defineEventHandler(async (event) => {
 
     try {
         const [[user]] = await conn.query(
-            `SELECT imageHash from User WHERE id='${userId}'`,
+            `SELECT name, imageHash from User WHERE id='${userId}'`,
         );
 
         if (user.imageHash) {
@@ -38,15 +38,16 @@ export default defineEventHandler(async (event) => {
             `UPDATE User SET image='${link}', imageHash='${deletehash}' WHERE id='${userId}'`,
         );
 
+        let msg = 'You have successfully updated your profile image';
+        if (event.context.isAdmin) {
+            msg = `You have successfully updated ${user.name}'s profile image`;
+        }
+
         await conn.commit();
-        return {
-            link, deletehash,
-            msg: `You have successfully updated your profile image`,
-        };
+        return { link, deletehash, msg };
     } catch (err) {
-        console.error(err);
         await conn.rollback();
-        throw createError({
+        return createError({
             statusCode: 500,
             data: {
                 msg: 'There was an error during update',

@@ -1,8 +1,8 @@
 <template>
     <div v-if='isExpanded' class='dropdown-wrapper' @click='() => isExpanded = false'></div>
-    <div v-if='user' class='menu'>
+    <div v-if='store.user' class='menu'>
         <button class='image-cnt' type='button' @click='() => isExpanded = !isExpanded'>
-            <img class='image' :src='user.image' />
+            <img class='image' :src='store.user.image' />
             <div class='arrow' :class='{ active: isExpanded }'>
                 <Icon name='material-symbols:arrow-drop-down' size='16' />
             </div>
@@ -17,15 +17,14 @@
 </template>
 
 <script setup>
+const { push } = useRouter();
 const store = useUserStore();
-const user = ref(store.user);
 const isExpanded = ref(false);
-const router = useRouter();
 
 const links = ref([
     {
         label: 'Profile',
-        path: `/users/${user.value.id}`,
+        path: `/users/${store.user.id}`,
         icon: 'lets-icons:user-circle',
     },
     {
@@ -39,20 +38,14 @@ const links = ref([
     },
 ]);
 
-watch(() => store.user, () => {
-    if (store.user) {
-        user.value = store.user;
-    }
-}, { immediate: true });
-
-const signout = () => {
+function signout() {
     const token = useCookie('token');
     const notification = useCookie('notification');
     notification.value = 'You have successfully signed out of your account';
     token.value = null;
     store.$reset();
-    router.push('/');
-};
+    push('/');
+}
 </script>
 
 <style lang='scss' scoped>

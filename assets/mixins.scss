@@ -22,3 +22,81 @@
         }
     }
 }
+
+@mixin zone($color) {
+    @include flex(flex-start);
+    width: 100%;
+    padding: 14px;
+    border: 1px solid $color;
+    border-radius: 8px;
+
+    .content {
+        flex: 1;
+
+        .subtitle {
+            color: rgba(var(--fg), 0.7);
+            font-size: 14px;
+        }
+    }
+
+    .btn {
+        margin: 0 8px;
+        font-size: 14px;
+    }
+
+    @media (max-width: 800px) {
+        .btn {
+            padding: 8px;
+
+            span {
+                display: none;
+            }
+        }
+    }
+}
+
+@mixin table() {
+    width: 100%;
+    border-spacing: 0;
+
+    thead {
+        background-color: rgba(var(--primary), 0.3);
+    }
+
+    tbody {
+        color: rgba(var(--fg), 0.8);
+
+        tr:nth-child(even) {
+            background-color: rgba(var(--primary), 0.1);
+        }
+    }
+
+    td,
+    th {
+        max-width: 150px;
+        padding: 2px 8px;
+        border: 1px solid rgba(var(--fg), 0.8);
+        text-align: left;
+        text-wrap: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+
+        a {
+            display: block;
+            color: rgba(var(--primary-l), 0.8);
+            transition: 0.3s;
+
+            &:hover {
+                color: rgb(var(--primary-l));
+            }
+        }
+    }
+
+    .loader {
+        height: calc(100vh - 120px - 180px);
+
+        td {
+            border: none;
+        }
+    }
+}

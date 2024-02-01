@@ -1,38 +1,35 @@
 <template>
-    <ClientOnly>
-        <div v-if='user' class='profile'>
-            <div class='header'>
-                <div class='image-cnt'>
-                    <img class='image' :src='user.image' />
+    <div v-if='user' class='profile'>
+        <div class='header'>
+            <div class='image-cnt'>
+                <img class='image' :src='user.image' />
+            </div>
+            <div class='info'>
+                <div class='name'>
+                    {{ user.name }}
                 </div>
-                <div class='info'>
-                    <div class='name'>
-                        {{ user.name }}
-                    </div>
-                    <div class='created-at'>
-                        Joined {{ new Date(user.createdAt).toLocaleDateString('en-US', options) }}
-                    </div>
-                    <div v-if='user.birth' class='birth'>
-                        Birth date: {{ formatDate(user.birth) }}
-                    </div>
+                <div class='created-at'>
+                    Joined {{ new Date(user.createdAt).toLocaleDateString('en-US', options) }}
                 </div>
-                <div v-if='route.params.id == store.user?.id' class='actions'>
-                    <FormLink class='action primary' to='/settings'>
-                        <Icon name='lets-icons:setting-fill' size='24' />
-                        <span>Settings</span>
-                    </FormLink>
+                <div v-if='user.birth' class='birth'>
+                    Birth date: {{ formatDate(user.birth) }}
                 </div>
             </div>
+            <div v-if='params.id == useUserStore().user?.id' class='actions'>
+                <FormLink class='action primary' to='/settings'>
+                    <Icon name='lets-icons:setting-fill' size='24' />
+                    <span>Settings</span>
+                </FormLink>
+            </div>
         </div>
-        <template #fallback>
-            <Loader />
-        </template>
-    </ClientOnly>
+    </div>
+    <Loader v-else />
 </template>
 
 <script setup>
-const store = useUserStore();
-const route = useRoute();
+const { users } = useUsersStore();
+const { params } = useRoute();
+
 const user = ref(null);
 const options = ref({
     month: 'short',
@@ -40,31 +37,19 @@ const options = ref({
     year: 'numeric',
 });
 
-useHead({
-    title: 'Profile',
-});
-
-async function fetchUserData(userId) {
-    if (route.params.id == store.user?.id) {
-        return { data: store.user, error: null };
-    } else {
-        const { data, error } = await useFetch(`/api/users/${userId}`, {
-            method: 'get',
-        });
-
-        return { data: data.value, error: error.value };
-    }
-}
-
-watch(() => route.params.id, async (userId) => {
-    const { data, error } = await fetchUserData(userId);
+watch(() => params.id, (userId) => {
+    const data = users.find((user) => {
+        return user.id == userId;
+    });
 
     if (data) {
         user.value = data;
-    } else if (error) {
+    } else {
         showError({ statusCode: 404 });
     }
 }, { immediate: true });
+
+useHead({ title: `Profile | ${user.value?.name}` });
 </script>
 
 <style lang='scss' scoped>

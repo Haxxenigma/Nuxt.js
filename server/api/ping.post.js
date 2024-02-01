@@ -2,7 +2,9 @@ import { exec } from 'child_process';
 
 async function ping(destination) {
     return new Promise((resolve, reject) => {
-        exec(`ping -c 3 ${destination.replace(/[&|;<>\-]/g, '')}`, (err, stdout, stderr) => {
+        const dest = destination.replace(/[&|;<>\-]/g, '');
+        const flag = process.platform === 'win32' ? '' : '-c 4';
+        exec(`ping ${flag} ${dest}`, (err, stdout, stderr) => {
             if (stderr || err) reject(stderr || err);
             resolve(stdout);
         });
@@ -15,7 +17,6 @@ export default defineEventHandler(async (event) => {
         const result = await ping(destination);
         return result;
     } catch (err) {
-        console.error(err);
         return createError({
             statusCode: 400,
             data: {

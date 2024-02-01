@@ -2,36 +2,31 @@ import { createConnection } from 'mysql2/promise';
 
 export default defineEventHandler(async (event) => {
     const userId = await checkAuth(event);
+    const body = await readBody(event);
+    const fields = ['password'];
+
+    await validateFields(body, fields);
 
     const config = useRuntimeConfig(event);
     const conn = await createConnection(config.databaseURL);
 
     try {
-        const [[user]] = await conn.query(
-            `SELECT name, imageHash FROM User WHERE id='${userId}'`,
-        );
-
-        if (user.imageHash) {
-            await del(event, user.imageHash);
-        }
+        const { salt, key } = await hash(body.password);
 
         await conn.query(
-            `DELETE FROM User WHERE id='${userId}'`,
+            `UPDATE User SET password='${salt}:${key}' WHERE id='${userId}'`,
         );
 
-        let msg = 'You have successfully deleted your profile';
-        if (event.context.isAdmin) {
-            msg = `You have successfully deleted ${user.name}'s profile`;
-        }
-
         await conn.commit();
-        return { msg };
+        return {
+            msg: `You have successfully reset password`,
+        };
     } catch (err) {
         await conn.rollback();
         return createError({
             statusCode: 500,
             data: {
-                msg: 'There was an error during deletion',
+                msg: 'There was an error during update',
             },
         });
     } finally {

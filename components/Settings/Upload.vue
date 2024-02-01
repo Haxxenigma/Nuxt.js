@@ -33,24 +33,21 @@
 </template>
 
 <script setup>
-const store = useUserStore();
-const user = ref(store.user);
-const input = ref(null);
-const blob = ref(null);
+const { fetchUser } = useUserStore();
+const { fetchUsers } = useUsersStore();
+const props = defineProps(['user']);
 const isVisibleUpload = ref(false);
 const isVisibleDelete = ref(false);
 const isSubmitting = ref(false);
 const rootError = ref(null);
+const user = ref(props.user);
+const input = ref(null);
+const blob = ref(null);
 
-watch(() => store.user, () => {
-    if (store.user) {
-        user.value = store.user;
-    }
-}, { immediate: true });
-
-const upload = async () => {
+async function upload() {
     isSubmitting.value = true;
     rootError.value = null;
+
     const formData = new FormData();
     formData.append('image', input.value.files[0]);
 
@@ -62,20 +59,16 @@ const upload = async () => {
 
     if (data) {
         isVisibleUpload.value = false;
-        store.$patch({
-            user: {
-                image: data.link,
-                imageHash: data.deletehash,
-            }
-        });
+        await fetchUser();
+        await fetchUsers();
     } else if (error) {
         rootError.value = error;
     }
 
     isSubmitting.value = false;
-};
+}
 
-const remove = async () => {
+async function remove() {
     isSubmitting.value = true;
     rootError.value = null;
 
@@ -86,20 +79,21 @@ const remove = async () => {
 
     if (data) {
         isVisibleDelete.value = false;
-        await store.fetchUser();
+        await fetchUser();
+        await fetchUsers();
     } else if (error) {
         rootError.value = error;
     }
 
     isSubmitting.value = false;
-};
+}
 
-const setBlob = (e) => {
+function setBlob(e) {
     if (e.target.files[0]) {
         blob.value = URL.createObjectURL(e.target.files[0]);
         isVisibleUpload.value = true;
     }
-};
+}
 
 watch(() => isVisibleUpload.value, (isVisibleUpload) => {
     if (isVisibleUpload === false) {
@@ -117,13 +111,14 @@ watch(() => isVisibleUpload.value, (isVisibleUpload) => {
 
 <style lang='scss' scoped>
 .upload {
-    @include flex(space-between);
+    @include flex(space-between, $gap: 8px);
     margin-bottom: 15px;
 
     .image-cnt {
         @include flex();
         width: 90px;
         height: 90px;
+        min-width: 90px;
         border: 1px inset rgba(var(--fg), 0.6);
         border-radius: 50%;
         overflow: hidden;
@@ -169,7 +164,7 @@ watch(() => isVisibleUpload.value, (isVisibleUpload) => {
     }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 800px) {
     .upload {
         .btns {
             .btn {

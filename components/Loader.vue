@@ -16,7 +16,7 @@
     .loader {
         width: 48px;
         height: 48px;
-        border: 5px solid rgb(var(--fg));
+        border: 5px solid rgba(var(--fg), 0.3);
         border-bottom-color: rgb(var(--primary));
         border-radius: 50%;
     }

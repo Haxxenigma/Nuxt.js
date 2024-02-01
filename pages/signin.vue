@@ -3,7 +3,7 @@
         <form class='form' @submit.prevent='signin'>
             <header class='header'>
                 <h1 class='title'>Sign In</h1>
-                <h2 class='subtitle'>Welcome back!</h2>
+                <p class='subtitle'>Welcome back!</p>
             </header>
             <FormField v-for='field in fields' class='field' :error='field.error'>
                 <FormInput v-bind='field' @update:value='field.value = $event' @reset:error='field.error = $event' />
@@ -18,13 +18,14 @@
 </template>
 
 <script setup>
-definePageMeta({
-    middleware: 'check-auth',
-});
+definePageMeta({ middleware: 'check-auth' });
+useHead({ title: 'Sign In' });
 
-useHead({
-    title: `Sign In`,
-});
+const { $patch } = useUserStore();
+const { push } = useRouter();
+
+const isSubmitting = ref(false);
+const rootError = ref(null);
 
 const fields = ref([
     {
@@ -42,11 +43,6 @@ const fields = ref([
     },
 ]);
 
-const router = useRouter();
-const store = useUserStore();
-const isSubmitting = ref(false);
-const rootError = ref(null);
-
 async function signin() {
     isSubmitting.value = true;
     rootError.value = null;
@@ -58,8 +54,8 @@ async function signin() {
     });
 
     if (data) {
-        store.$patch({ user: data.user });
-        router.push(`/users/${data.user.id}`);
+        $patch({ user: data.user });
+        push(`/users/${data.user.id}`);
     } else if (error) {
         rootError.value = error;
     }

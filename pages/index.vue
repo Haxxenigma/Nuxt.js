@@ -33,11 +33,9 @@
 </template>
 
 <script setup>
-const { user } = useUserStore();
+useHead({ title: 'Home' });
 
-useHead({
-    title: `Home`,
-});
+const { user } = useUserStore();
 
 const items = ref([
     {

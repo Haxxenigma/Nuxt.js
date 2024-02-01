@@ -16,8 +16,7 @@ export default defineEventHandler(async (event) => {
         const { password, ...userData } = user;
         return { ...userData };
     } catch (err) {
-        console.error(err);
-        throw createError({
+        return createError({
             statusCode: 403,
             data: 'Forbidden',
         });

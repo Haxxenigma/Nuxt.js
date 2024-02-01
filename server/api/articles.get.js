@@ -19,8 +19,7 @@ export default defineEventHandler(async (event) => {
 
         return articles;
     } catch (err) {
-        console.error(err);
-        throw createError({
+        return createError({
             statusCode: 500,
             data: {
                 msg: 'An error occurred while trying to retrieve articles',

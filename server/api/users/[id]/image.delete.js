@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
 
     try {
         const [[user]] = await conn.query(
-            `SELECT imageHash from User WHERE id='${userId}'`,
+            `SELECT name, imageHash from User WHERE id='${userId}'`,
         );
 
         if (user.imageHash) {
@@ -20,14 +20,16 @@ export default defineEventHandler(async (event) => {
             ['/media/avatar.svg', null, userId],
         );
 
+        let msg = 'You have successfully deleted your profile image';
+        if (event.context.isAdmin) {
+            msg = `You have successfully deleted ${user.name}'s profile image`;
+        }
+
         await conn.commit();
-        return {
-            msg: `You have successfully deleted your profile image`,
-        };
+        return { msg };
     } catch (err) {
-        console.error(err);
         await conn.rollback();
-        throw createError({
+        return createError({
             statusCode: 500,
             data: {
                 msg: 'There was an error during delete',

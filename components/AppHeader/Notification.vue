@@ -6,20 +6,22 @@
             <button class='xmark' type='button' @click='notification = null'>
                 <Icon name='iconoir:xmark' size='20' />
             </button>
-            <div class='progress' :style='`width: ${width}%`' />
+            <div class='progress' :style='`width: ${width}%`'></div>
         </div>
     </Transition>
 </template>
 
 <script setup>
 const notification = useCookie('notification');
-const width = ref(100);
+const width = ref(null);
 
 watch(() => notification.value, () => {
     if (notification.value) {
         width.value = 100;
+
         const timer = setInterval(() => {
             width.value -= 2;
+
             if (width.value < 0) {
                 notification.value = null;
                 clearInterval(timer);

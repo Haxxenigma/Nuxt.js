@@ -1,4 +1,4 @@
-export const genGoogleUrl = (config) => {
+export function genGoogleUrl(config) {
     const url = 'https://accounts.google.com/o/oauth2/v2/auth';
     const options = {
         client_id: config.public.googleOAuthClientID,
@@ -16,9 +16,9 @@ export const genGoogleUrl = (config) => {
     const qs = new URLSearchParams(options);
 
     return `${url}?${qs.toString()}`;
-};
+}
 
-export const genGithubUrl = (config) => {
+export function genGithubUrl(config) {
     const url = 'https://github.com/login/oauth/authorize';
     const options = {
         client_id: config.public.githubOAuthClientID,
@@ -28,4 +28,4 @@ export const genGithubUrl = (config) => {
     const qs = new URLSearchParams(options);
 
     return `${url}?${qs.toString()}`;
-};
+}

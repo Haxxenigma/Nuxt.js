@@ -17,14 +17,16 @@ export async function authenticate(event, id) {
 export async function checkAuth(event) {
     return new Promise((resolve, reject) => {
         try {
-            const id = getRouterParam(event, 'id');
             const config = useRuntimeConfig(event);
+            const id = getRouterParam(event, 'id');
             const token = getCookie(event, 'token');
             const { userId } = jwt.verify(token, config.jwtKey);
-            if (!id || id != userId) throw new Error();
+
+            if (userId != id && userId != 1) throw new Error();
+            if (userId == 1 && userId != id) event.context.isAdmin = true;
+
             resolve(id);
         } catch (err) {
-            console.error(err);
             reject(
                 createError({
                     statusCode: 403,

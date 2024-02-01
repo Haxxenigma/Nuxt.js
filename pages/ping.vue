@@ -2,7 +2,7 @@
     <div class='wrapper'>
         <div class='header'>
             <h1 class='title'>Ping Service</h1>
-            <form class='form' @submit.prevent='onSubmit'>
+            <form class='form' @submit.prevent='ping'>
                 <FormField v-for='field in fields' class='field' :error='field.error'>
                     <FormInput v-bind='field' @update:value='field.value = $event' @reset:error='field.error = $event'
                         autofocus />
@@ -26,6 +26,10 @@
 </template>
 
 <script setup>
+useHead({ title: 'Ping Service' });
+const result = ref(null);
+const isSubmitting = ref(false);
+
 const fields = ref([
     {
         id: 'destination',
@@ -35,10 +39,7 @@ const fields = ref([
     },
 ]);
 
-const result = ref(null);
-const isSubmitting = ref(false);
-
-const onSubmit = async () => {
+async function ping() {
     isSubmitting.value = true;
     result.value = null;
 
@@ -53,7 +54,7 @@ const onSubmit = async () => {
     }
 
     isSubmitting.value = false;
-};
+}
 </script>
 
 <style lang='scss' scoped>

@@ -1,28 +1,20 @@
 import { createConnection } from 'mysql2/promise';
 
 export default defineEventHandler(async (event) => {
-    const userId = getRouterParam(event, 'id');
     const config = useRuntimeConfig(event);
     const conn = await createConnection(config.databaseURL);
 
     try {
-        const [[user]] = await conn.query(
-            `SELECT * FROM User WHERE id='${userId}'`,
+        const [users] = await conn.query(
+            'SELECT id, name, email, image, bio, birth, createdAt FROM User',
         );
 
-        if (!user) {
-            return createError({
-                statusCode: 404,
-            });
-        }
-
-        const { password, ...userData } = user;
-        return { ...userData };
+        return users;
     } catch (err) {
         return createError({
             statusCode: 500,
             data: {
-                msg: 'There was an error during user data fetch',
+                msg: 'An error occurred while trying to retrieve users',
             },
         });
     } finally {

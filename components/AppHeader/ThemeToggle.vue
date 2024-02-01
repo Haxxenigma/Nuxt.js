@@ -18,11 +18,11 @@ onMounted(() => {
     }
 });
 
-const toggleTheme = () => {
+function toggleTheme() {
     const newTheme = theme.value === 'dark' ? 'light' : 'dark';
     localStorage.setItem('theme', newTheme);
     theme.value = newTheme;
-};
+}
 
 useHead({
     htmlAttrs: {

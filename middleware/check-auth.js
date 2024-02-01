@@ -2,6 +2,6 @@ export default defineNuxtRouteMiddleware(() => {
     const { user } = useUserStore();
 
     if (user) {
-        return navigateTo(`/users/${user.id}`);
+        return reloadNuxtApp({ path: `/users/${user.id}` });
     }
 });

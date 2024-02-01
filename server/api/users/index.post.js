@@ -26,10 +26,9 @@ export default defineEventHandler(async (event) => {
             msg: `You have successfully signed up`,
         };
     } catch (err) {
-        console.error(err);
         await conn.rollback();
         if (err.code === 'ER_DUP_ENTRY') {
-            throw createError({
+            return createError({
                 statusCode: 400,
                 data: {
                     field: 'email',
@@ -38,7 +37,7 @@ export default defineEventHandler(async (event) => {
             });
         }
 
-        throw createError({
+        return createError({
             statusCode: 500,
             data: {
                 msg: 'There was an error during sign up',

@@ -3,15 +3,15 @@ import { createConnection } from 'mysql2/promise';
 export default defineEventHandler(async (event) => {
     const userId = await checkAuth(event);
     const body = await readBody(event);
-    const fields = ['password1', 'password2', 'password3'];
+    const fields = ['current-password', 'new-password', 'password-confirmation'];
 
     await validateFields(body, fields);
 
-    if (body.password2 !== body.password3) {
+    if (body['new-password'] !== body['password-confirmation']) {
         return createError({
             statusCode: 400,
             data: {
-                field: 'password3',
+                field: 'password-confirmation',
                 msg: 'New password must match password confirmation',
             },
         });
@@ -25,30 +25,27 @@ export default defineEventHandler(async (event) => {
             `SELECT password FROM User WHERE id='${userId}'`,
         );
 
-        if (!user || !(await compare(body.password1, user.password))) {
+        if (!user || !(await compare(body['current-password'], user.password))) {
             return createError({
                 statusCode: 401,
                 data: {
-                    field: 'password1',
+                    field: 'current-password',
                     msg: 'Incorrect password',
                 },
             });
         }
 
-        const { salt, key } = await hash(body.password2);
+        const { salt, key } = await hash(body['new-password']);
 
         await conn.query(
             `UPDATE User SET password='${salt}:${key}' WHERE id='${userId}'`,
         );
 
         await conn.commit();
-        return {
-            msg: `You have successfully updated your password`,
-        };
+        return { msg: 'You have successfully updated your password' };
     } catch (err) {
-        console.error(err);
         await conn.rollback();
-        throw createError({
+        return createError({
             statusCode: 500,
             data: {
                 msg: 'There was an error during update',

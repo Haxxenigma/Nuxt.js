@@ -3,21 +3,16 @@
 </template>
 
 <script setup>
-const route = useRoute();
+definePageMeta({ middleware: 'check-auth' });
+useHead({ title: 'Authenticating...' });
 
-definePageMeta({
-    middleware: 'check-auth',
-});
+const { query } = useRoute();
 
-useHead({
-    title: 'Authenticating...',
-});
-
-watch(() => route.query.code, async (code) => {
+watch(() => query.code, async (code) => {
     if (code) {
         let url = '/api/auth/github';
 
-        if (route.query.state === 'googleOAuth') {
+        if (query.state === 'googleOAuth') {
             url = '/api/auth/google';
         }
 

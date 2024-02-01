@@ -1,30 +1,35 @@
 <template>
-    <SettingsLayout @onSubmit='onSubmit' :reset='`/users/${user.id}`' :isSubmitting='isSubmitting' :rootError='rootError'>
-        <template #form>
-            <FormField v-for='field in fields' :error='field.error'>
+    <SettingsLayout>
+        <form class='form' @submit.prevent='update'>
+            <FormField v-for='field in fields' class='field' :error='field.error'>
                 <FormInput v-bind='field' type='password' @update:value='field.value = $event'
                     @reset:error='field.error = $event' />
             </FormField>
-        </template>
+            <div class='btns'>
+                <FormLink class='btn inverse' :to='`/users/${user.id}`'>
+                    <Icon name='f7:xmark' size='20' />Cancel
+                </FormLink>
+                <FormButton class='btn primary' :isSubmitting='isSubmitting'>Save</FormButton>
+            </div>
+            <FormError :error='rootError' />
+        </form>
     </SettingsLayout>
 </template>
 
 <script setup>
-const store = useUserStore();
-const user = ref(store.user);
+useHead({ title: 'Settings | Security' });
+
+const { user } = useUserStore();
+
 const isSubmitting = ref(false);
 const rootError = ref(null);
 
-useHead({
-    title: `Settings | Security`,
-});
-
-const onSubmit = async () => {
+async function update() {
     isSubmitting.value = true;
     rootError.value = null;
 
     const { data, error } = await useSubmit({
-        url: `/api/users/${user.value.id}/password`,
+        url: `/api/users/${user.id}/password`,
         fieldsArray: fields.value,
         method: 'patch',
     });
@@ -34,30 +39,35 @@ const onSubmit = async () => {
     if (data) {
         fields.value.forEach((field) => {
             field.value = '';
+            field.error = '';
         });
     } else if (error) {
         rootError.value = error;
     }
-};
+}
 
 const fields = ref([
     {
-        id: 'password1',
+        id: 'current-password',
         label: 'Current password',
         value: '',
         error: '',
     },
     {
-        id: 'password2',
+        id: 'new-password',
         label: 'New password',
         value: '',
         error: '',
     },
     {
-        id: 'password3',
+        id: 'password-confirmation',
         label: 'Confirm password',
         value: '',
         error: '',
     },
 ]);
 </script>
+
+<style lang='scss' scoped>
+@import '~/assets/settings.scss';
+</style>

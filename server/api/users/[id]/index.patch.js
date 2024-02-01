@@ -18,15 +18,17 @@ export default defineEventHandler(async (event) => {
             [body.email, body.name, body.bio, body.birth || null, userId],
         );
 
+        let msg = 'You have successfully updated your profile';
+        if (event.context.isAdmin) {
+            msg = `You have successfully updated ${body.name}'s profile`;
+        }
+
         await conn.commit();
-        return {
-            msg: `You have successfully updated your profile`,
-        };
+        return { msg };
     } catch (err) {
-        console.error(err);
         await conn.rollback();
         if (err.code === 'ER_DUP_ENTRY') {
-            throw createError({
+            return createError({
                 statusCode: 400,
                 data: {
                     field: 'email',
@@ -35,7 +37,7 @@ export default defineEventHandler(async (event) => {
             });
         }
 
-        throw createError({
+        return createError({
             statusCode: 500,
             data: {
                 msg: 'There was an error during update',
