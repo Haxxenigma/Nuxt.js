@@ -4,38 +4,23 @@ export default defineEventHandler(async (event) => {
     const userId = await checkAuth(event);
     const [formData] = await readMultipartFormData(event);
 
-    if (!formData.type.startsWith('image/')) {
-        return createError({
-            statusCode: 400,
-            data: {
-                msg: 'Please, uplaod an image',
-            },
-        });
-    } else if (formData.data.length > 5242880) {
-        return createError({
-            statusCode: 400,
-            data: {
-                msg: 'Please, uplaod an image no larger than 5 MB',
-            },
-        });
-    }
+    await validateImage(formData);
 
     const config = useRuntimeConfig(event);
     const conn = await createConnection(config.databaseURL);
 
     try {
         const [[user]] = await conn.query(
-            `SELECT name, imageHash from User WHERE id='${userId}'`,
+            'SELECT name, imageHash from User WHERE id=?', [userId],
         );
 
-        if (user.imageHash) {
-            await del(event, user.imageHash);
-        }
+        if (user.imageHash) await del(event, user.imageHash);
 
         const { link, deletehash } = await post(event, formData.data);
 
         await conn.query(
-            `UPDATE User SET image='${link}', imageHash='${deletehash}' WHERE id='${userId}'`,
+            'UPDATE User SET image=?, imageHash=? WHERE id=?',
+            [link, deletehash, userId],
         );
 
         let msg = 'You have successfully updated your profile image';
@@ -44,7 +29,7 @@ export default defineEventHandler(async (event) => {
         }
 
         await conn.commit();
-        return { link, deletehash, msg };
+        return { msg };
     } catch (err) {
         await conn.rollback();
         return createError({

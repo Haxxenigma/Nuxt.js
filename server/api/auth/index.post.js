@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
 
     try {
         const [[user]] = await conn.query(
-            `SELECT * FROM User WHERE email='${body.email}'`,
+            'SELECT * FROM User WHERE email=?', [body.email],
         );
 
         if (user && await compare(body.password, user.password)) {

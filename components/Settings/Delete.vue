@@ -25,29 +25,30 @@ const isVisible = ref(false);
 const isSubmitting = ref(false);
 const rootError = ref(null);
 
-const deleteAccount = async () => {
+async function deleteAccount() {
     isSubmitting.value = true;
     rootError.value = null;
 
-    const { data, error } = await useSubmit({
+    const { error } = await useSubmit({
         url: `/api/users/${userId}`,
         method: 'delete',
     });
 
-    isSubmitting.value = false;
-
-    if (data && store.user.id === userId) {
+    if (error) {
+        rootError.value = error.msg;
+    } else if (store.user.id === userId) {
+        useNotification('You have successfully deleted your profile');
         const token = useCookie('token');
         token.value = null;
         store.$reset();
         push('/');
-    } else if (data) {
+    } else {
         await useUsersStore().fetchUsers();
         push('/admin/users');
-    } else if (error) {
-        rootError.value = error;
     }
-};
+
+    isSubmitting.value = false;
+}
 </script>
 
 <style lang='scss' scoped>

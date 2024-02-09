@@ -10,7 +10,7 @@ export default defineEventHandler(async (event) => {
         const { userId } = jwt.verify(token, config.jwtKey);
 
         const [[user]] = await conn.query(
-            `SELECT * FROM User WHERE id='${userId}'`,
+            'SELECT * FROM User WHERE id=?', [userId],
         );
 
         const { password, ...userData } = user;

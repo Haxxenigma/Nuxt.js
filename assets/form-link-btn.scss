@@ -23,7 +23,7 @@
     }
 
     &:disabled {
-        box-shadow: inset 0 0 300px rgba(255, 255, 255, 0.5) !important;
+        box-shadow: inset 0 0 300px rgba(255, 255, 255, 0.3) !important;
     }
 
     &.primary {
@@ -86,6 +86,15 @@
         &:active {
             color: rgb(var(--primary));
             background-color: rgba(var(--primary), 0.1);
+        }
+
+        &.is-active {
+            background-color: rgba(var(--primary), 0.8);
+
+            &:hover {
+                color: rgb(var(--fg));
+                background-color: rgb(var(--primary));
+            }
         }
     }
 

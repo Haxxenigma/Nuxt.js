@@ -42,7 +42,7 @@ async function update() {
             field.error = '';
         });
     } else if (error) {
-        rootError.value = error;
+        rootError.value = error.msg;
     }
 }
 

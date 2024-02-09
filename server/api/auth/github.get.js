@@ -20,7 +20,7 @@ export default defineEventHandler(async (event) => {
 
     try {
         const [[user]] = await conn.query(
-            `SELECT * FROM User WHERE email='${email}'`,
+            'SELECT * FROM User WHERE email=?', [email],
         );
 
         if (!user) {
@@ -32,9 +32,11 @@ export default defineEventHandler(async (event) => {
 
         const token = await authenticate(event, user.id);
 
+        const { password, ...userData } = user;
+
         return {
             token: token,
-            userId: user.id,
+            user: { ...userData },
             msg: `You have successfully signed in as ${user.name}`,
         };
     } catch (err) {

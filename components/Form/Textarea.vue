@@ -1,7 +1,8 @@
 <template>
-    <input :type='type' :id='id' :name='id' :value='value' :class='{ "not-empty": value !== "", "is-error": error !== "" }'
-        v-bind='$attrs' class='form-input' autocomplete='off'
-        @input='$emit("update:value", $event.target.value); $emit("reset:error", "")' />
+    <textarea :id='id' :name='id' :value='value' :class='{ "not-empty": value !== "", "is-error": error !== "" }'
+        v-bind='$attrs' class='form-textarea' autocomplete='off'
+        @input='$emit("update:value", $event.target.value); $emit("reset:error", "")'>
+    </textarea>
     <div class='form-label'>{{ label }}</div>
 </template>
 
@@ -23,7 +24,9 @@ defineEmits(['update:value', 'reset:error']);
 </script>
 
 <style lang='scss'>
-.form-input {
+.form-textarea {
     @include input();
+    vertical-align: top;
+    resize: vertical;
 }
 </style>

@@ -22,7 +22,7 @@ export default defineEventHandler(async (event) => {
 
     try {
         const [[user]] = await conn.query(
-            `SELECT password FROM User WHERE id='${userId}'`,
+            'SELECT password FROM User WHERE id=?', [userId],
         );
 
         if (!user || !(await compare(body['current-password'], user.password))) {
@@ -38,7 +38,8 @@ export default defineEventHandler(async (event) => {
         const { salt, key } = await hash(body['new-password']);
 
         await conn.query(
-            `UPDATE User SET password='${salt}:${key}' WHERE id='${userId}'`,
+            'UPDATE User SET password=? WHERE id=?',
+            [`${salt}:${key}`, userId],
         );
 
         await conn.commit();

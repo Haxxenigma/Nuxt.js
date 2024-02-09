@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
 
     try {
         const [[user]] = await conn.query(
-            `SELECT * FROM User WHERE id='${userId}'`,
+            'SELECT * FROM User WHERE id=?', [userId],
         );
 
         if (!user) {

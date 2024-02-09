@@ -18,7 +18,8 @@
                 <div class='results-cnt'>
                     <div v-if='results?.[0]' class='results'>
                         <h2 class='results-title'>Articles</h2>
-                        <FormLink v-for='result in results' class='item inverse' to=''>
+                        <FormLink v-for='result in results' class='item inverse' :to='`/articles/${result.id}`'
+                            @click='showModal = false'>
                             <Icon name='material-symbols:article-rounded' size='24' />
                             <div class='title'>
                                 {{ result.title }}
@@ -45,8 +46,18 @@ const timer = ref(null);
 watch(() => search.value, async () => {
     clearTimeout(timer.value);
     timer.value = setTimeout(async () => {
-        await store.fetchArticles(search.value);
-        results.value = store.articles;
+        // await store.fetchArticles(search.value);
+        if (search.value) {
+            results.value = store.articles.filter((article) => {
+                const titleMatch = article.title.toLowerCase().includes(search.value.toLowerCase());
+                const contentMatch = article.content.toLowerCase().includes(search.value.toLowerCase());
+                // const tagsMatch = article.tags.some((tag) => tag.toLowerCase().includes(search.value.toLowerCase()));
+
+                return titleMatch || contentMatch;
+            });
+        } else {
+            results.value = store.articles;
+        }
     }, 500);
 }, { immediate: true });
 
@@ -87,7 +98,7 @@ watch(() => showModal.value, () => {
     .results-cnt {
         @include flex();
         flex-basis: 100%;
-        min-height: 150px;
+        min-width: 500px;
 
         .results {
             @include flex(flex-start, $dir: column, $gap: 2px);
@@ -124,6 +135,8 @@ watch(() => showModal.value, () => {
 @media (max-width: 700px) {
     .form-modal {
         .results-cnt {
+            min-width: auto;
+
             .results {
                 .item {
                     .title {

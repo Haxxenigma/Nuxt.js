@@ -1,7 +1,7 @@
 <template>
     <SettingsLayout>
         <div class='wrapper'>
-            <SettingsDelete :userId='store.user?.id' />
+            <SettingsDelete :userId='user?.id' />
             <div class='normal-zone'>
                 <div class='content'>
                     <h2 class='title'>Sign Out</h2>
@@ -14,13 +14,13 @@
             </div>
         </div>
         <div class='btns'>
-            <FormLink class='btn inverse' :to='`/users/${store.user?.id}`'>
+            <FormLink class='btn inverse' :to='`/users/${user?.id}`'>
                 <Icon name='material-symbols-light:arrow-back' size='20' />
                 Exit
             </FormLink>
         </div>
     </SettingsLayout>
-    <FormModal :isVisible='isVisible' :isSubmitting='false' @setIsVisible='isVisible = $event' @onClick='signout'>
+    <FormModal :isVisible='isVisible' :isSubmitting='false' @setIsVisible='isVisible = $event' @onClick='useSignout'>
         <template #msg>
             Are you sure you want to sign out of this account?
         </template>
@@ -29,20 +29,8 @@
 
 <script setup>
 useHead({ title: 'Settings | Advanced' });
-
-const { push } = useRouter();
-const store = useUserStore();
-
+const { user } = useUserStore();
 const isVisible = ref(false);
-
-async function signout() {
-    const token = useCookie('token');
-    const notification = useCookie('notification');
-    notification.value = 'You have successfully signed out of your account';
-    token.value = null;
-    store.$reset();
-    push('/');
-}
 </script>
 
 <style lang='scss' scoped>

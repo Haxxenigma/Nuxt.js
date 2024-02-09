@@ -14,7 +14,8 @@ export default defineEventHandler(async (event) => {
         const { salt, key } = await hash(body.password);
 
         await conn.query(
-            `UPDATE User SET password='${salt}:${key}' WHERE id='${userId}'`,
+            'UPDATE User SET password=? WHERE id=?',
+            [`${salt}:${key}`, userId],
         );
 
         await conn.commit();
@@ -26,7 +27,7 @@ export default defineEventHandler(async (event) => {
         return createError({
             statusCode: 500,
             data: {
-                msg: 'There was an error during update',
+                msg: 'There was an error during password reset',
             },
         });
     } finally {

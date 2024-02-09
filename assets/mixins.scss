@@ -100,3 +100,224 @@
         }
     }
 }
+
+@mixin tooltip() {
+    .tooltip {
+        position: absolute;
+        top: 120%;
+        left: 50%;
+        padding: 4px 16px;
+        color: rgba(var(--fg), 0.8);
+        background-color: rgba(var(--bg), 0.8);
+        border: 1px solid rgba(var(--fg), 0.3);
+        box-shadow: inset 0 0 20px rgba(var(--fg), 0.1);
+        border-radius: 4px;
+        text-align: center;
+        text-wrap: nowrap;
+        font-size: 12px;
+        user-select: none;
+        pointer-events: none;
+        transform: translate(-50%, 10%);
+        backdrop-filter: blur(5px);
+        transition: 0.2s;
+        opacity: 0;
+        z-index: 1;
+        visibility: hidden;
+    }
+
+    &:hover {
+        .tooltip {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, 0%);
+        }
+    }
+
+    @media (max-width: 500px) {
+        .tooltip {
+            display: none;
+        }
+    }
+}
+
+@mixin input() {
+    width: 100%;
+    padding: 20px 12px 4px;
+    background-color: rgba(var(--fg), 0.05);
+    border-bottom: 2px solid rgba(var(--fg), 0.2);
+    transition: 0.2s;
+
+    &:hover {
+        background-color: rgba(var(--fg), 0.075);
+        border-bottom-color: rgba(var(--fg), 0.4);
+    }
+
+    &:focus {
+        background-color: rgba(var(--fg), 0.1);
+    }
+
+    &:focus,
+    &.not-empty {
+        ~.form-label {
+            top: 12px;
+            color: rgb(var(--primary));
+            font-size: 13px;
+        }
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+    }
+
+    &[type='date'] {
+        ~.form-label {
+            top: 25%;
+            color: rgb(var(--primary));
+            font-size: 13px;
+        }
+
+        &::-webkit-calendar-picker-indicator {
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 4px;
+            transition: 0.3s;
+            cursor: pointer;
+
+            &:hover {
+                background-color: rgb(255, 255, 255);
+            }
+        }
+    }
+
+    &.is-error {
+        border-bottom-color: rgba(var(--red), 0.2);
+
+        &:hover {
+            border-bottom-color: rgba(var(--red), 0.5);
+        }
+
+        ~.form-label {
+            color: rgba(var(--red), 0.7);
+        }
+
+        &:focus,
+        &.not-empty {
+            ~.form-label {
+                color: rgb(var(--red));
+            }
+        }
+    }
+
+    ~.form-label {
+        position: absolute;
+        top: 24px;
+        left: 12px;
+        color: rgba(var(--fg), 0.7);
+        transform: translateY(-50%);
+        pointer-events: none;
+        transition: 0.2s;
+    }
+}
+
+@mixin html() {
+    padding: 8px;
+
+    p {
+        padding: 4px 0;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        margin: 20px 0;
+        font-weight: bold;
+    }
+
+    h1 {
+        font-size: xx-large;
+    }
+
+    h2 {
+        font-size: x-large;
+    }
+
+    h3 {
+        font-size: larger;
+    }
+
+    h4 {
+        font-size: large;
+    }
+
+    h5 {
+        font-size: medium;
+    }
+
+    h6 {
+        font-size: small;
+    }
+
+    ul,
+    ol {
+        margin: 16px 0;
+        padding-left: 40px;
+
+        ul,
+        ol {
+            margin: 0;
+        }
+    }
+
+    a {
+        color: rgba(var(--primary), 0.8);
+        transition: 0.2s;
+
+        &:hover {
+            color: rgb(var(--primary));
+        }
+    }
+
+    pre {
+        margin: 16px 0;
+        padding: 4px 8px;
+        background-color: rgba(var(--bg), 0.8);
+        border-radius: 4px;
+    }
+
+    code {
+        font-family: 'Courier New', Courier, monospace;
+    }
+
+    blockquote {
+        margin: 16px 4px;
+        padding: 0 8px;
+        background-color: rgba(var(--bg), 0.1);
+        border-left: 2px solid rgba(var(--bg), 0.8);
+    }
+
+    em {
+        font-style: italic;
+    }
+
+    strong {
+        font-weight: 700;
+    }
+
+    s {
+        text-decoration: line-through;
+    }
+
+    img {
+        display: block;
+        max-width: 85%;
+        margin: auto;
+    }
+
+    hr {
+        width: 100%;
+        height: 1px;
+        background-color: rgba(var(--fg), 0.3);
+    }
+}

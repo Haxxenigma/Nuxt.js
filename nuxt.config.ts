@@ -16,6 +16,7 @@ export default defineNuxtConfig({
     modules: [
         'nuxt-icon',
         '@pinia/nuxt',
+        'nuxt-tiptap-editor',
     ],
     css: [
         '~/assets/main.scss',
@@ -28,6 +29,12 @@ export default defineNuxtConfig({
                     additionalData: '@use "~/assets/mixins.scss" as *;',
                 },
             },
+        },
+    },
+    tiptap: {
+        prefix: 'Tiptap',
+        lowlight: {
+            theme: 'github-dark',
         },
     },
 });

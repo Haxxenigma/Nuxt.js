@@ -57,7 +57,7 @@ async function signin() {
         $patch({ user: data.user });
         push(`/users/${data.user.id}`);
     } else if (error) {
-        rootError.value = error;
+        rootError.value = error.msg;
     }
 
     isSubmitting.value = false;

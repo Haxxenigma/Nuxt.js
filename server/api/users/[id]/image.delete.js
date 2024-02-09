@@ -8,15 +8,13 @@ export default defineEventHandler(async (event) => {
 
     try {
         const [[user]] = await conn.query(
-            `SELECT name, imageHash from User WHERE id='${userId}'`,
+            'SELECT name, imageHash from User WHERE id=?', [userId],
         );
 
-        if (user.imageHash) {
-            await del(event, user.imageHash);
-        }
+        if (user.imageHash) await del(event, user.imageHash);
 
         await conn.query(
-            `UPDATE User SET image=?, imageHash=? WHERE id=?`,
+            'UPDATE User SET image=?, imageHash=? WHERE id=?',
             ['/media/avatar.svg', null, userId],
         );
 

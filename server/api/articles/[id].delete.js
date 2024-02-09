@@ -1,22 +1,21 @@
 import { createConnection } from 'mysql2/promise';
 
 export default defineEventHandler(async (event) => {
-    const userId = await checkAuth(event);
-
+    const articleId = await checkAuth(event);
     const config = useRuntimeConfig(event);
     const conn = await createConnection(config.databaseURL);
 
     try {
-        const [[user]] = await conn.query(
-            'SELECT name, imageHash FROM User WHERE id=?', [userId],
+        const [[article]] = await conn.query(
+            'SELECT thumbnail FROM Article WHERE id = ?', [articleId],
         );
 
-        if (user.imageHash) {
-            await del(event, user.imageHash);
+        if (article.thumbnail) {
+            await remove(article.thumbnail);
         }
 
         await conn.query(
-            'DELETE FROM User WHERE id=?', [userId],
+            'DELETE FROM Article WHERE id = ?', [articleId],
         );
 
         await conn.commit();
@@ -26,7 +25,7 @@ export default defineEventHandler(async (event) => {
         return createError({
             statusCode: 500,
             data: {
-                msg: 'An error occurred while deleting an account',
+                msg: 'An error occurred while deleting the article',
             },
         });
     } finally {

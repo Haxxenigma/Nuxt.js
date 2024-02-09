@@ -42,6 +42,28 @@ watch(() => query.user, (userData) => {
     }
 }, { immediate: true });
 
+async function signup() {
+    isSubmitting.value = true;
+    rootError.value = null;
+
+    const { data, error } = await useSubmit({
+        method: 'post',
+        url: '/api/users',
+        fieldsArray: fields.value,
+    });
+
+    if (data) {
+        await fetchUsers();
+        await fetchUser();
+        useNotification('You have successfully signed up');
+        push(`/users/${data.userId}`);
+    } else if (error) {
+        rootError.value = error.msg;
+    }
+
+    isSubmitting.value = false;
+}
+
 const fields = ref([
     {
         id: 'name',
@@ -72,27 +94,6 @@ const fields = ref([
         value: (user.value?.verified_email || user.value?.verified) === 'true' ? 1 : 0,
     },
 ]);
-
-async function signup() {
-    isSubmitting.value = true;
-    rootError.value = null;
-
-    const { data, error } = await useSubmit({
-        method: 'post',
-        url: '/api/users',
-        fieldsArray: fields.value,
-    });
-
-    if (data) {
-        await fetchUser();
-        await fetchUsers();
-        push(`/users/${data.userId}`);
-    } else if (error) {
-        rootError.value = error;
-    }
-
-    isSubmitting.value = false;
-}
 </script>
 
 <style lang='scss' scoped>

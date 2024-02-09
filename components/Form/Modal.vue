@@ -33,7 +33,7 @@ defineEmits(['setIsVisible', 'onClick']);
 <style lang='scss' scoped>
 .form-modal {
     @include flex();
-    position: absolute;
+    position: fixed;
     height: 100vh;
     top: 0;
     left: 0;

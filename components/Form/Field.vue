@@ -24,12 +24,12 @@ defineProps(['error']);
             content: '';
             position: absolute;
             width: 100%;
-            height: 1.5px;
+            height: 2px;
             left: 0;
             bottom: 0;
             background-color: rgb(var(--primary));
             transform-origin: center;
-            transition: 0.2s;
+            transition: 0.3s;
             scale: 0;
         }
 

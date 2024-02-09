@@ -20,6 +20,10 @@
                     <Icon name='lets-icons:setting-fill' size='24' />
                     <span>Settings</span>
                 </FormLink>
+                <FormLink v-if='1 == useUserStore().user?.id' class='action primary' to='/admin'>
+                    <Icon name='eos-icons:admin-outlined' size='24' />
+                    <span>Admin Panel</span>
+                </FormLink>
             </div>
         </div>
     </div>
@@ -89,10 +93,12 @@ useHead({ title: `Profile | ${user.value?.name}` });
         }
 
         .actions {
-            @include flex();
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
 
             .action {
-                padding: 8px 32px;
+                padding: 8px 20px;
             }
         }
     }

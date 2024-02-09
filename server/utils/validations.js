@@ -47,3 +47,29 @@ export async function validateEmail(email) {
         }
     });
 }
+
+export async function validateImage(image, maxSize) {
+    return new Promise((resolve, reject) => {
+        if (!image.type.startsWith('image/')) {
+            reject(
+                createError({
+                    statusCode: 400,
+                    data: {
+                        msg: 'Please, uplaod an image',
+                    },
+                }),
+            );
+        } else if (image.data.length > (maxSize || 5242880)) {
+            reject(
+                createError({
+                    statusCode: 400,
+                    data: {
+                        msg: `Please, uplaod an image no larger than ${(maxSize || 5242880) / 1048576} MB`,
+                    },
+                }),
+            );
+        } else {
+            resolve();
+        }
+    });
+}

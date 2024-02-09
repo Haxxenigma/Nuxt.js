@@ -17,32 +17,33 @@
 
 <script setup>
 let popup = null;
-const router = useRouter();
+const { push } = useRouter();
+const { $patch } = useUserStore();
 const cookie = useCookie('token');
-const store = useUserStore();
 
-const redirect = (url) => {
+function redirect(url) {
     window.removeEventListener('message', recieveMsg);
 
     if (!popup || popup.closed) {
-        popup = window.open(url, '_blank', 'popup, width=600, height=600');
+        const features = 'popup, width=600, height=600, left=100, top=100';
+        popup = window.open(url, '_blank', features);
     } else {
         popup.focus();
     }
 
     window.addEventListener('message', recieveMsg);
-};
+}
 
-const recieveMsg = async ({ data }) => {
+async function recieveMsg({ data }) {
     if (data.newOAuthUser) {
         const qs = new URLSearchParams(data.user);
-        router.push(`/signup?user=${btoa(qs.toString())}`);
+        push(`/signup?user=${btoa(qs.toString())}`);
     } else if (data.token) {
         cookie.value = data.token;
-        await store.fetchUser();
-        router.push(`/users/${data.userId}`);
+        $patch({ user: data.user });
+        push(`/users/${data.user.id}`);
     }
-};
+}
 </script>
 
 <style lang='scss' scoped>

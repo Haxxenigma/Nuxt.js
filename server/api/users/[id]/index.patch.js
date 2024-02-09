@@ -13,8 +13,7 @@ export default defineEventHandler(async (event) => {
 
     try {
         await conn.query(
-            `UPDATE User SET email=?, name=?, bio=?, birth=?` +
-            ` WHERE id=?`,
+            'UPDATE User SET email=?, name=?, bio=?, birth=? WHERE id=?',
             [body.email, body.name, body.bio, body.birth || null, userId],
         );
 

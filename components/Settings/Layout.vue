@@ -14,12 +14,12 @@
             </FormButton>
         </h1>
         <div class='settings'>
-            <div class='nav' :class='{ active: isNavExpanded }' @click='isNavExpanded = false'>
+            <nav class='nav' :class='{ active: isNavExpanded }' @click='isNavExpanded = false'>
                 <FormLink v-for='link in links' class='link inverse-primary' :to='link.path'>
                     <Icon :name='link.icon' size='24' />
                     {{ link.label }}
                 </FormLink>
-            </div>
+            </nav>
             <div class='content'>
                 <slot></slot>
             </div>
@@ -133,6 +133,7 @@ if (pathLvl1.value === 'settings') {
         .content {
             flex: 1;
             margin-left: 25px;
+            overflow: auto;
         }
     }
 }

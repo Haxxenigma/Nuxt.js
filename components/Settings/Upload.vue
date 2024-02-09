@@ -62,7 +62,7 @@ async function upload() {
         await fetchUser();
         await fetchUsers();
     } else if (error) {
-        rootError.value = error;
+        rootError.value = error.msg;
     }
 
     isSubmitting.value = false;
@@ -82,7 +82,7 @@ async function remove() {
         await fetchUser();
         await fetchUsers();
     } else if (error) {
-        rootError.value = error;
+        rootError.value = error.msg;
     }
 
     isSubmitting.value = false;

@@ -13,18 +13,14 @@ export default defineEventHandler(async (event) => {
     try {
         const { salt, key } = await hash(body.password);
         const [user] = await conn.query(
-            'INSERT INTO User(name, email, password, image, verified) VALUES' +
-            `('${body.name}', '${body.email}', '${salt}:${key}', ` +
-            `'${body.image || '/media/avatar.svg'}', '${body.verified || 0}')`,
+            'INSERT INTO User(name, email, password, image, verified) VALUES(?, ?, ?, ?, ?)',
+            [body.name, body.email, `${salt}:${key}`, body.image || '/media/avatar.svg', body.verified || 0],
         );
 
         await authenticate(event, user.insertId);
 
         await conn.commit();
-        return {
-            userId: user.insertId,
-            msg: `You have successfully signed up`,
-        };
+        return { userId: user.insertId };
     } catch (err) {
         await conn.rollback();
         if (err.code === 'ER_DUP_ENTRY') {

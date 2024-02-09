@@ -8,7 +8,7 @@
             </div>
         </button>
         <div class='dropdown' :class='{ active: isExpanded }' @click='() => isExpanded = false'>
-            <NuxtLink v-for='link in links' class='link' :to='link.path' @click.prevent='!link.path && signout()'>
+            <NuxtLink v-for='link in links' class='link' :to='link.path' @click.prevent='!link.path && useSignout()'>
                 <Icon :name='link.icon' size='24' />
                 {{ link.label }}
             </NuxtLink>
@@ -17,7 +17,6 @@
 </template>
 
 <script setup>
-const { push } = useRouter();
 const store = useUserStore();
 const isExpanded = ref(false);
 
@@ -33,19 +32,15 @@ const links = ref([
         icon: 'lets-icons:setting-fill',
     },
     {
+        label: 'Blog',
+        path: '/articles',
+        icon: 'material-symbols:article-rounded',
+    },
+    {
         label: 'Sign Out',
         icon: 'lets-icons:sign-out-squre-fill',
     },
 ]);
-
-function signout() {
-    const token = useCookie('token');
-    const notification = useCookie('notification');
-    notification.value = 'You have successfully signed out of your account';
-    token.value = null;
-    store.$reset();
-    push('/');
-}
 </script>
 
 <style lang='scss' scoped>
