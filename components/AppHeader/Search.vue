@@ -1,15 +1,16 @@
 <template>
     <div class='search-cnt'>
-        <FormButton class='btn inverse wo-outline' @click='showModal = true'>
+        <FormButton class='btn' btn-class='wo-outline' btn-style='padding: 8px;' @click='showModal = true'>
             <Icon name='material-symbols:search-rounded' size='24' />
         </FormButton>
-        <FormModal style='padding: 0;' :isVisible='showModal' @setIsVisible='showModal = $event'>
+        <FormModal style='padding: 0;' :is-visible='showModal' @setIsVisible='showModal = $event'>
             <template #msg>
                 <form class='form'>
                     <Icon class='icon' name='material-symbols:search-rounded' size='24' />
                     <input class='input' type='text' id='search' name='search' placeholder='Search...' v-model='search'
                         ref='searchInput' />
-                    <FormButton class='close-btn inverse wo-outline' type='button' @click='showModal = false'>
+                    <FormButton class='close-btn' btn-class='wo-outline' type='button' btn-style='padding: 8px;'
+                        @click='showModal = false'>
                         <Icon name='material-symbols:close-rounded' size='24' />
                     </FormButton>
                 </form>
@@ -18,8 +19,8 @@
                 <div class='results-cnt'>
                     <div v-if='results?.[0]' class='results'>
                         <h2 class='results-title'>Articles</h2>
-                        <FormLink v-for='result in results' class='item inverse' :to='`/articles/${result.id}`'
-                            @click='showModal = false'>
+                        <FormLink v-for='result in results' class='item' link-style='justify-content: flex-start;'
+                            :to='`/articles/${result.id}`' @click='showModal = false'>
                             <Icon name='material-symbols:article-rounded' size='24' />
                             <div class='title'>
                                 {{ result.title }}
@@ -73,12 +74,6 @@ watch(() => showModal.value, () => {
 </script>
 
 <style lang='scss' scoped>
-.search-cnt {
-    .btn {
-        padding: 4px;
-    }
-}
-
 .form-modal {
     .form {
         @include flex($gap: 5px);
@@ -91,7 +86,7 @@ watch(() => showModal.value, () => {
         }
 
         .close-btn {
-            padding: 4px;
+            width: max-content;
         }
     }
 
@@ -99,6 +94,7 @@ watch(() => showModal.value, () => {
         @include flex();
         flex-basis: 100%;
         min-width: 500px;
+        min-height: 75px;
 
         .results {
             @include flex(flex-start, $dir: column, $gap: 2px);
@@ -115,9 +111,6 @@ watch(() => showModal.value, () => {
             }
 
             .item {
-                justify-content: flex-start;
-                width: 100%;
-
                 .title {
                     max-width: 600px;
                     overflow: hidden;

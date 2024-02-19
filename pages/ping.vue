@@ -1,16 +1,16 @@
 <template>
-    <div class='wrapper'>
-        <div class='header'>
+    <div class='ping-service'>
+        <header class='header'>
             <h1 class='title'>Ping Service</h1>
             <form class='form' @submit.prevent='ping'>
                 <FormField v-for='field in fields' class='field' :error='field.error'>
                     <FormInput v-bind='field' @update:value='field.value = $event' @reset:error='field.error = $event'
                         autofocus />
                 </FormField>
-                <FormButton class='btn primary' :isSubmitting='isSubmitting'>Send</FormButton>
+                <FormButton class='btn' btn-class='primary' :is-submitting='isSubmitting'>Send</FormButton>
             </form>
-        </div>
-        <div class='footer'>
+        </header>
+        <footer class='footer'>
             <h2 class='title'>Result</h2>
             <div class='result-cnt'>
                 <Transition name='result' mode='out-in'>
@@ -21,7 +21,7 @@
                     <span v-else class='result-initial'>No result</span>
                 </Transition>
             </div>
-        </div>
+        </footer>
     </div>
 </template>
 
@@ -58,7 +58,7 @@ async function ping() {
 </script>
 
 <style lang='scss' scoped>
-.wrapper {
+.ping-service {
     .header {
         width: 75%;
         margin: 15px auto 0;
@@ -73,6 +73,7 @@ async function ping() {
             margin: 8px;
 
             .btn {
+                width: max-content;
                 margin: 5px 0 0 35px;
             }
         }
@@ -127,7 +128,7 @@ async function ping() {
 }
 
 @media (max-width: 600px) {
-    .wrapper {
+    .ping-service {
         .header {
             width: 95%;
 

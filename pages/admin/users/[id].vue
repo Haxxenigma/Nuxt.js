@@ -2,12 +2,13 @@
     <SettingsLayout>
         <div class='settings' v-if='fields'>
             <SettingsUpload :user='user' />
-            <SettingsForm :user='user' :btnStyles='btnStyles' />
+            <SettingsForm :user='user' :btn-classes='btnClasses' :btn-styles='btnStyles' />
             <form class='password-form' @submit.prevent='update'>
                 <FormField v-for='field in fields' :error='field.error'>
                     <FormInput v-bind='field' @update:value='field.value = $event' @reset:error='field.error = $event' />
                 </FormField>
-                <FormButton :style='btnStyles' class='btn primary' :isSubmitting='isSubmitting'>Save</FormButton>
+                <FormButton class='btn' btn-class='primary' :btn-style='btnStyles' :is-submitting='isSubmitting'>Save
+                </FormButton>
             </form>
             <SettingsDelete :userId='user.id' />
         </div>
@@ -20,9 +21,6 @@ useHead({ title: 'Users | Admin Panel' });
 const { users } = useUsersStore();
 const { params } = useRoute();
 
-const btnStyles = `gap: 8px;
-margin: 4px 0 30px 0;
-padding: 8px 28px;`;
 const user = ref(null);
 const isSubmitting = ref(false);
 const fields = ref([{
@@ -31,6 +29,12 @@ const fields = ref([{
     value: '',
     error: '',
 }]);
+const btnClasses = 'primary';
+const btnStyles = 'width: max-content;' +
+    'margin-top: 4px;' +
+    'padding: 8px 28px;' +
+    'gap: 8px;' +
+    'font-size: 14px';
 
 async function update() {
     isSubmitting.value = true;

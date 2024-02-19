@@ -58,17 +58,8 @@ const links = ref([
     z-index: 10;
 
     .image-cnt {
-        @include flex();
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        overflow: hidden;
+        @include avatar(40px);
         transition: 0.2s;
-
-        .image {
-            width: 100%;
-            height: auto;
-        }
 
         .arrow {
             @include flex();
@@ -103,7 +94,7 @@ const links = ref([
     @include flex($dir: column);
     position: absolute;
     width: 200px;
-    top: 115%;
+    top: 100%;
     right: 0;
     padding: 6px 0;
     background-color: rgba(var(--bg), 0.8);
@@ -114,7 +105,7 @@ const links = ref([
     visibility: hidden;
     pointer-events: none;
     transform: scale(0.9);
-    transition: 0.1s;
+    transition: 0.15s;
 
     .link {
         @include flex(flex-start, $gap: 8px);

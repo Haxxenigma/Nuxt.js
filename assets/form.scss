@@ -1,4 +1,4 @@
-.wrapper {
+.form-cnt {
     @include flex($dir: column);
     flex-grow: 1;
 
@@ -28,21 +28,14 @@
             margin-top: 5px;
         }
 
-        .submit {
-            width: 100%;
+        .btn {
             margin-top: 10px;
-
-            .btn {
-                width: 100%;
-            }
         }
     }
 }
 
 @media (max-width: 550px) {
-    .wrapper {
-        background-color: rgba(var(--fg), 0.1);
-
+    .form-cnt {
         .form {
             min-width: 100vw;
             background-color: transparent;

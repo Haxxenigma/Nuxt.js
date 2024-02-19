@@ -4,17 +4,17 @@
             <img class='image' :src='user.image' />
         </a>
         <div class='btns'>
-            <FormButton type='button' class='btn upload-btn primary' @click='input.click()'>
+            <FormButton type='button' class='btn upload-btn' btn-class='primary' @click='input.click()'>
                 <input class='upload-input' type='file' id='image' name='image' @change='setBlob' ref='input' />
                 <Icon name='material-symbols:add-photo-alternate-outline-rounded' size='24' />
                 <span>Upload</span>
             </FormButton>
-            <FormButton type='button' class='btn delete-btn danger' @click='isVisibleDelete = true'>
+            <FormButton type='button' class='btn delete-btn' btn-class='danger' @click='isVisibleDelete = true'>
                 <Icon name='material-symbols:delete-outline-rounded' size='24' />
                 <span>Delete</span>
             </FormButton>
         </div>
-        <FormModal :isVisible='isVisibleUpload' :isSubmitting='isSubmitting' :error='rootError'
+        <FormModal :is-visible='isVisibleUpload' :is-submitting='isSubmitting' :error='rootError'
             @setIsVisible='isVisibleUpload = $event' @onClick='upload'>
             <template #msg>
                 Are you sure you want to update your profile image?
@@ -23,7 +23,7 @@
                 <img class='image' :src='blob' />
             </div>
         </FormModal>
-        <FormModal :isVisible='isVisibleDelete' :isSubmitting='isSubmitting' :error='rootError'
+        <FormModal :is-visible='isVisibleDelete' :is-submitting='isSubmitting' :error='rootError'
             @setIsVisible='isVisibleDelete = $event' @onClick='remove'>
             <template #msg>
                 Are you sure you want to delete your profile image?
@@ -115,25 +115,7 @@ watch(() => isVisibleUpload.value, (isVisibleUpload) => {
     margin-bottom: 15px;
 
     .image-cnt {
-        @include flex();
-        width: 90px;
-        height: 90px;
-        min-width: 90px;
-        border: 1px inset rgba(var(--fg), 0.6);
-        border-radius: 50%;
-        overflow: hidden;
-
-        &:hover {
-            ~.upload-label {
-                opacity: 1;
-                visibility: visible;
-            }
-        }
-
-        .image {
-            width: 100%;
-            height: auto;
-        }
+        @include avatar(90px);
     }
 
     .btns {
@@ -150,17 +132,8 @@ watch(() => isVisibleUpload.value, (isVisibleUpload) => {
 
 .form-modal {
     .image-cnt {
-        @include flex();
-        width: 120px;
-        height: 120px;
+        @include avatar(120px);
         margin-top: 20px;
-        border-radius: 50%;
-        overflow: hidden;
-
-        .image {
-            width: 100%;
-            height: auto;
-        }
     }
 }
 
@@ -168,8 +141,6 @@ watch(() => isVisibleUpload.value, (isVisibleUpload) => {
     .upload {
         .btns {
             .btn {
-                padding: 8px;
-
                 span {
                     display: none;
                 }

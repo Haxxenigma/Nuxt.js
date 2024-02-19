@@ -36,10 +36,18 @@ watch(() => props.modelValue.value, (value) => {
         flex-wrap: wrap;
         gap: 5px;
 
-        button {
+        .form-button-cnt {
             @include tooltip();
-            position: relative;
-            padding: 8px;
+            width: max-content;
+
+            .form-button {
+                padding: 8px;
+                overflow: visible;
+
+                .ripples {
+                    display: none;
+                }
+            }
         }
     }
 

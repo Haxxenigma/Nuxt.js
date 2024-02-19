@@ -8,7 +8,7 @@
                 <h2 class='subtitle'>
                     Watch your dreams materialize before your eyes with us.
                 </h2>
-                <FormLink class='link primary' :to='user ? `/users/${user.id}` : `/signup`'>
+                <FormLink class='link' link-class='primary' :to='user ? `/users/${user.id}` : `/signin`'>
                     <icon name='material-symbols:rocket-launch-rounded' size='20' />
                     Get Started
                 </FormLink>
@@ -89,7 +89,8 @@ const items = ref([
             }
 
             .link {
-                margin-top: 35px;
+                width: max-content;
+                margin-top: 15px;
             }
         }
 

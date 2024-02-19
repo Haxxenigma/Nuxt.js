@@ -9,14 +9,13 @@
                 @reset:error='fields[2].error = $event' />
         </ClientOnly>
         <div class='thumbnail'>
-            <FormButton class='upload primary' type='button' @click='upload.click()'>
+            <FormButton class='upload' btn-class='primary' type='button' @click='upload.click()'>
                 <Icon name='solar:upload-bold-duotone' size='24' />Upload thumbnail
-                <input type='file' id='thumbnail' name='thumbnail' ref='upload' @change='setBlob' />
             </FormButton>
-            <FormButton class='reset inverse' type='button' :disabled='!blob' @click='unsetBlob'>
+            <FormButton class='reset' type='button' :disabled='!blob' @click='unsetBlob'>
                 <Icon name='f7:xmark' size='20' />Reset uploaded thumbnail
             </FormButton>
-            <FormButton v-if='article?.thumbnail' class='delete danger' type='button' @click='isVisible = true'>
+            <FormButton v-if='article?.thumbnail' class='delete' btn-class='danger' type='button' @click='isVisible = true'>
                 <Icon name='material-symbols:delete-outline-rounded' size='24' />Delete thumbnail
             </FormButton>
         </div>
@@ -24,18 +23,19 @@
             <img v-if='blob || article?.thumbnail' :src='blob || article.thumbnail' />
         </div>
         <div class='btns'>
-            <FormLink class='btn inverse' :to='article ? (path.startsWith(`/admin`) ? `/admin/articles`
+            <FormLink class='btn' :to='article ? (path.startsWith(`/admin`) ? `/admin/articles`
                 : `/articles/${article.id}`) : `/articles`'>
                 <Icon name='f7:xmark' size='20' />Cancel
             </FormLink>
-            <FormButton class='btn primary' :isSubmitting='isSubmitting'>
+            <FormButton class='btn' btn-class='primary' :is-submitting='isSubmitting'>
                 {{ article ? 'Save' : 'Create' }}
             </FormButton>
         </div>
         <FormError :error='rootError' />
         <slot></slot>
+        <input class='thumbnail-input' type='file' id='thumbnail' name='thumbnail' ref='upload' @change='setBlob' />
     </form>
-    <FormModal :isVisible='isVisible' :isSubmitting='isDeleteSubmitting' @setIsVisible='isVisible = $event'
+    <FormModal :is-visible='isVisible' :is-submitting='isDeleteSubmitting' @setIsVisible='isVisible = $event'
         @onClick='delThumbnail'>
         Are you sure you want to delete this thumbnail?
     </FormModal>
@@ -197,10 +197,8 @@ const fields = ref([
         margin: 16px 0;
         font-size: 14px;
 
-        .upload {
-            input {
-                display: none;
-            }
+        .form-button-cnt {
+            width: max-content;
         }
     }
 
@@ -215,6 +213,15 @@ const fields = ref([
     .btns {
         @include flex(flex-start, $gap: 30px);
         margin-top: 15px;
+
+        .form-button-cnt,
+        .form-link-cnt {
+            width: max-content;
+        }
+    }
+
+    .thumbnail-input {
+        display: none;
     }
 }
 
@@ -226,7 +233,7 @@ const fields = ref([
             flex-direction: column;
             gap: 15px;
 
-            button {
+            .form-button-cnt {
                 width: 100%;
             }
         }

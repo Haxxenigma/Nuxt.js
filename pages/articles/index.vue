@@ -1,7 +1,7 @@
 <template>
     <div class='articles-cnt'>
         <nav class='nav'>
-            <FormLink class='link primary' to='/articles/create'>
+            <FormLink class='link' link-class='primary' to='/articles/create'>
                 <Icon name='material-symbols:edit-square-outline-rounded' size='24' />
                 <span>New</span>
             </FormLink>
@@ -13,7 +13,7 @@
                 <div class='content'>
                     <TiptapEditorContent :editor='editors[article.id]' />
                 </div>
-                <FormLink class='read-more inverse' :to='`/articles/${article.id}`'>
+                <FormLink class='read-more' :to='`/articles/${article.id}`'>
                     <span>Read more</span>
                     <Icon name='material-symbols:arrow-right-alt-rounded' size='20' />
                 </FormLink>
@@ -44,6 +44,7 @@ articles.forEach((article) => {
 
         .link {
             font-size: 14px;
+            width: max-content;
         }
     }
 

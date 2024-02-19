@@ -4,13 +4,14 @@
             <FormInput v-bind='field' @update:value='field.value = $event' @reset:error='field.error = $event' />
         </FormField>
         <slot name='btns'>
-            <FormButton v-if='props.btnStyles' :style='props.btnStyles' class='btn primary' :isSubmitting='isSubmitting'>
+            <FormButton v-if='props.btnClasses' :btn-class='props.btnClasses' :btn-style='props.btnStyles'
+                class='btn primary' :is-submitting='isSubmitting'>
                 Save</FormButton>
             <div v-else class='btns'>
-                <FormLink class='btn inverse' :to='`/users/${user.id}`'>
-                    <Icon name='f7:xmark' size='20' />Cancel
+                <FormLink class='btn' :to='`/users/${user.id}`'>
+                    <Icon name='f7:xmark' size='18' />Cancel
                 </FormLink>
-                <FormButton class='btn primary' :isSubmitting='isSubmitting'>Save</FormButton>
+                <FormButton class='btn' btn-class='primary' :is-submitting='isSubmitting'>Save</FormButton>
             </div>
         </slot>
         <FormError :error='rootError' />
@@ -20,7 +21,7 @@
 <script setup>
 const { fetchUsers } = useUsersStore();
 const { fetchUser } = useUserStore();
-const props = defineProps(['user', 'btnStyles']);
+const props = defineProps(['user', 'btnClasses', 'btnStyles']);
 
 const isSubmitting = ref(false);
 const rootError = ref(null);

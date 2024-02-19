@@ -6,10 +6,10 @@
                     @reset:error='field.error = $event' />
             </FormField>
             <div class='btns'>
-                <FormLink class='btn inverse' :to='`/users/${user.id}`'>
-                    <Icon name='f7:xmark' size='20' />Cancel
+                <FormLink class='btn' :to='`/users/${user.id}`'>
+                    <Icon name='f7:xmark' size='18' />Cancel
                 </FormLink>
-                <FormButton class='btn primary' :isSubmitting='isSubmitting'>Save</FormButton>
+                <FormButton class='btn' btn-class='primary' :is-submitting='isSubmitting'>Save</FormButton>
             </div>
             <FormError :error='rootError' />
         </form>

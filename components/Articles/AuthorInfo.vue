@@ -1,6 +1,6 @@
 <template>
     <div class='info-cnt'>
-        <FormLink class='info inverse wo-outline' :to='`/users/${article.authorId}`'>
+        <FormLink class='info' link-class='wo-outline' :to='`/users/${article.authorId}`'>
             <div class='author'>
                 <div class='image-cnt'>
                     <img class='image' :src='article.authorImage' />
@@ -25,44 +25,38 @@ const options = ref({
 });
 </script>
 
-<style lang='scss' scoped>
+<style lang='scss'>
 .info-cnt {
     width: 100%;
 
-    .info {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
+    .form-link-cnt {
         width: max-content;
-        padding: 2px 8px;
 
-        .author {
-            @include flex($gap: 4px);
+        .form-link {
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 4px 8px;
 
-            .image-cnt {
-                width: 25px;
-                height: 25px;
-                border-radius: 50%;
-                overflow: hidden;
+            .author {
+                @include flex($gap: 4px);
 
-                .image {
-                    width: 100%;
-                    height: auto;
+                .image-cnt {
+                    @include avatar(25px);
+                }
+
+                .name {
+                    max-width: 150px;
+                    text-wrap: nowrap;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
                 }
             }
 
-            .name {
-                max-width: 150px;
-                text-wrap: nowrap;
-                text-overflow: ellipsis;
-                overflow: hidden;
+            .created-at {
+                padding: 0 2px;
+                font-size: 14px;
+                color: rgba(var(--fg), 0.6);
             }
-        }
-
-        .created-at {
-            padding: 0 2px;
-            font-size: 14px;
-            color: rgba(var(--fg), 0.6);
         }
     }
 }

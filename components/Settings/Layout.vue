@@ -1,21 +1,23 @@
 <template>
     <div class='settings-layout'>
-        <h1 class='title'>
-            <div class='title-link'>
+        <h1 class='settings-title'>
+            <div class='settings-title-link'>
                 <NuxtLink :to='`/${pathLvl1}`'>{{ capitalize(pathLvl1) }}</NuxtLink>
                 <NuxtLink v-if='pathLvl2' :to='`/${pathLvl1}/${pathLvl2}`'>/{{ capitalize(pathLvl2) }}</NuxtLink>
                 <NuxtLink v-if='pathLvl3' :to='`/${pathLvl1}/${pathLvl2}/${pathLvl3}`'>
                     /{{ capitalize(pathLvl3) }}
                 </NuxtLink>
             </div>
-            <FormButton class='nav-btn inverse' @click='isNavExpanded = !isNavExpanded'>
+            <FormButton class='nav-btn' btn-style='padding: 4px; border-radius: 4px;'
+                @click='isNavExpanded = !isNavExpanded'>
                 <Icon v-if='!isNavExpanded' name='ic:round-menu' size='30' />
                 <Icon v-else name='iconoir:xmark' size='30' />
             </FormButton>
         </h1>
         <div class='settings'>
             <nav class='nav' :class='{ active: isNavExpanded }' @click='isNavExpanded = false'>
-                <FormLink v-for='link in links' class='link inverse-primary' :to='link.path'>
+                <FormLink v-for='link in links' class='link' link-class='semi-primary wo-outline disable-ripples'
+                    link-style='justify-content: flex-start' :to='link.path'>
                     <Icon :name='link.icon' size='24' />
                     {{ link.label }}
                 </FormLink>
@@ -88,13 +90,13 @@ if (pathLvl1.value === 'settings') {
 .settings-layout {
     margin: 8px 64px;
 
-    .title {
+    .settings-title {
         @include flex(space-between);
         padding: 4px;
         font-size: 28px;
         border-bottom: 3px solid rgba(var(--primary), 0.5);
 
-        .title-link {
+        .settings-title-link {
             @include flex();
 
             a {
@@ -107,10 +109,9 @@ if (pathLvl1.value === 'settings') {
             }
         }
 
-        .nav-btn {
+        .form-button-cnt {
             display: none;
-            padding: 4px;
-            border-radius: 4px;
+            width: max-content;
         }
     }
 
@@ -123,10 +124,7 @@ if (pathLvl1.value === 'settings') {
             flex: 0.4;
 
             .link {
-                width: 100%;
-                justify-content: flex-start;
                 margin-top: 6px;
-                border: none;
             }
         }
 
@@ -142,7 +140,7 @@ if (pathLvl1.value === 'settings') {
     .settings-layout {
         margin: 8px 24px;
 
-        .title {
+        .settings-title {
             .nav-btn {
                 display: flex;
             }

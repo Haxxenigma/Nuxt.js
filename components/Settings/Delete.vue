@@ -2,14 +2,14 @@
     <div class='danger-zone'>
         <div class='content'>
             <h2 class='title'>Delete account</h2>
-            <h3 class='subtitle'>You won't be able to restore it after that</h3>
+            <p class='subtitle'>You won't be able to restore it after that</p>
         </div>
-        <FormButton class='btn danger' @click='() => isVisible = true'>
+        <FormButton class='btn' btn-class='danger' @click='() => isVisible = true'>
             <Icon name='mdi:delete-forever' size='20' />
             <span>Delete</span>
         </FormButton>
     </div>
-    <FormModal :isVisible='isVisible' :isSubmitting='isSubmitting' @setIsVisible='isVisible = $event' :error='rootError'
+    <FormModal :is-visible='isVisible' :is-submitting='isSubmitting' @setIsVisible='isVisible = $event' :error='rootError'
         @onClick='deleteAccount'>
         <template #msg>
             Are you sure you want to delete this account?
@@ -54,5 +54,6 @@ async function deleteAccount() {
 <style lang='scss' scoped>
 .danger-zone {
     @include zone(rgb(var(--red)));
+    margin-top: 15px;
 }
 </style>

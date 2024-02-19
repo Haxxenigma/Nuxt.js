@@ -1,7 +1,8 @@
 <template>
     <div class='article-index' v-if='article'>
         <nav class='nav'>
-            <FormLink v-for='link in isAuthor ? links : links.slice(0, 1)' :class='`link ${link.class}`' :to='link.path'>
+            <FormLink v-for='link in isAuthor ? links : links.slice(0, 1)' class='link' :link-class='link.class'
+                :to='link.path'>
                 <Icon :name='link.icon' size='24' />
                 <span>{{ link.label }}</span>
             </FormLink>
@@ -54,7 +55,6 @@ const links = ref([
         path: '/articles',
         label: 'Back',
         icon: 'material-symbols:arrow-back-rounded',
-        class: 'inverse',
     },
     {
         path: `/articles/${article.value?.id}/edit`,
@@ -75,6 +75,7 @@ useHead({ title: `Article | ${article.value?.title}` });
         @include flex(flex-start, $gap: 25px);
 
         .link {
+            width: max-content;
             font-size: 14px;
         }
     }
@@ -113,6 +114,8 @@ useHead({ title: `Article | ${article.value?.title}` });
         padding: 16px;
 
         .nav {
+            gap: 10px;
+
             .link {
                 padding: 0.5em;
 

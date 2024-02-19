@@ -23,6 +23,21 @@
     }
 }
 
+@mixin avatar($px) {
+    @include flex();
+    width: $px;
+    height: $px;
+    min-width: $px;
+    min-height: $px;
+    border-radius: 50%;
+    overflow: hidden;
+
+    .image {
+        width: 100%;
+        height: auto;
+    }
+}
+
 @mixin zone($color) {
     @include flex(flex-start);
     width: 100%;
@@ -40,6 +55,7 @@
     }
 
     .btn {
+        width: max-content;
         margin: 0 8px;
         font-size: 14px;
     }
@@ -83,11 +99,12 @@
 
         a {
             display: block;
-            color: rgba(var(--primary-l), 0.8);
+            color: rgba(var(--primary), 0.8);
             transition: 0.3s;
 
             &:hover {
-                color: rgb(var(--primary-l));
+                color: rgb(var(--primary));
+                text-decoration: underline;
             }
         }
     }

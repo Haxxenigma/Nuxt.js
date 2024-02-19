@@ -8,11 +8,13 @@
                 <slot></slot>
                 <div class='btns'>
                     <slot name='btns'>
-                        <FormButton type='button' class='btn inverse' @click='$emit("setIsVisible", false)'>
+                        <FormButton type='button' class='btn' btn-style='padding: 8px 24px;'
+                            @click='$emit("setIsVisible", false)'>
                             <Icon v-if='isSubmitting !== undefined' name='material-symbols:close-rounded' size='20' />
                             No
                         </FormButton>
-                        <FormButton class='btn primary' :isSubmitting='isSubmitting' @click='$emit("onClick")'>
+                        <FormButton class='btn' btn-class='primary' btn-style='padding: 8px 24px;'
+                            :is-submitting='isSubmitting' @click='$emit("onClick")'>
                             Yes
                         </FormButton>
                     </slot>
@@ -59,8 +61,9 @@ defineEmits(['setIsVisible', 'onClick']);
             width: 100%;
 
             .btn {
-                padding: 8px 24px;
+                width: max-content;
                 margin-top: 20px;
+                font-size: 14px;
             }
         }
 

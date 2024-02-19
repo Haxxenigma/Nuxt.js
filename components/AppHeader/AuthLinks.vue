@@ -1,39 +1,22 @@
 <template>
     <div class='auth-links'>
-        <FormLink v-for='link in links' :to='link.path' :class='`link ${link.class}`'>
-            <Icon :name='link.icon' size='20' />
-            <span>{{ link.label }}</span>
+        <FormLink v-if='!$route.path.startsWith(`/signin`)' class='link' to='/signin'>
+            <Icon name='lets-icons:sign-in-squre-fill' size='20' />
+            <span>Sign In</span>
+        </FormLink>
+        <FormLink v-if='!$route.path.startsWith(`/signup`)' class='link' link-class='primary' to='/signup'>
+            <Icon name='lets-icons:user-add' size='20' />
+            <span>Sign Up</span>
         </FormLink>
     </div>
 </template>
 
-<script setup>
-const links = ref([
-    {
-        label: 'Sign In',
-        path: '/signin',
-        icon: 'lets-icons:sign-in-squre-fill',
-        class: 'inverse',
-    },
-    {
-        label: 'Sign Up',
-        path: '/signup',
-        icon: 'lets-icons:user-add',
-        class: 'primary',
-    },
-]);
-</script>
-
-<style lang='scss' scoped>
+<style lang='scss'>
 .auth-links {
-    @include flex(space-between, $gap: 25px);
+    @include flex(space-between, $gap: 24px);
 
     .link {
         font-size: 14px;
-
-        &.router-link-exact-active {
-            display: none;
-        }
     }
 }
 
@@ -42,8 +25,6 @@ const links = ref([
         gap: 8px;
 
         .link {
-            padding: 8px;
-
             span {
                 display: none;
             }

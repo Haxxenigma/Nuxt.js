@@ -4,11 +4,11 @@
         <hr />
     </div>
     <div class='auth-providers'>
-        <FormButton type='button' class='btn inverse' @click='redirect(genGoogleUrl($config))'>
+        <FormButton type='button' class='btn' @click='redirect(genGoogleUrl($config))'>
             <Icon name='logos:google-icon' size='24' />
             Google
         </FormButton>
-        <FormButton type='button' class='btn inverse' @click='redirect(genGithubUrl($config))'>
+        <FormButton type='button' class='btn' @click='redirect(genGithubUrl($config))'>
             <Icon name='simple-icons:github' size='24' />
             GitHub
         </FormButton>
@@ -67,17 +67,7 @@ async function recieveMsg({ data }) {
     margin: 10px 0;
 
     .btn {
-        width: 100%;
-        background-color: transparent;
         font-size: 14px;
-
-        &:hover {
-            background-color: rgba(var(--fg), 0.05);
-        }
-
-        &:active {
-            background-color: rgba(var(--fg), 0.07);
-        }
     }
 }
 </style>

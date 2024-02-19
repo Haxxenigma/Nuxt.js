@@ -1,5 +1,5 @@
 <template>
-    <FormButton class='theme-toggle inverse wo-outline' @click='toggleTheme'>
+    <FormButton class='theme-toggle' btn-class='wo-outline' btn-style='padding: 8px;' @click='toggleTheme'>
         <Icon v-if='theme === "dark"' name='material-symbols:dark-mode-outline-rounded' size='24' />
         <Icon v-else name='material-symbols:light-mode-outline-rounded' size='24' />
     </FormButton>
@@ -30,9 +30,3 @@ useHead({
     },
 });
 </script>
-
-<style lang='scss' scoped>
-.theme-toggle {
-    padding: 4px;
-}
-</style>

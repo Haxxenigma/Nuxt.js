@@ -1,5 +1,5 @@
 <template>
-    <div class='wrapper'>
+    <div class='form-cnt'>
         <form class='form' @submit.prevent='signin'>
             <header class='header'>
                 <h1 class='title'>Sign In</h1>
@@ -8,9 +8,7 @@
             <FormField v-for='field in fields' class='field' :error='field.error'>
                 <FormInput v-bind='field' @update:value='field.value = $event' @reset:error='field.error = $event' />
             </FormField>
-            <div class='submit'>
-                <FormButton class='btn primary' :isSubmitting='isSubmitting'>Sign In</FormButton>
-            </div>
+            <FormButton class='btn' btn-class='primary' :is-submitting='isSubmitting'>Sign In</FormButton>
             <FormError :error='rootError' />
             <AuthProviders />
         </form>
